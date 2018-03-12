@@ -2,13 +2,14 @@
 clear all;
 close all;
 
+Upp=0.8;
+Ypp=2;
+
 % 1. Sprawdzenie Upp i Ypp 
 
 save=0; % 1 - zapis wykresów
 optimization=0; % 1 - wywo³anie optymalizacji
 
-Upp=0.8;
-Ypp=2;
 simTime=100;
 Y=symulacja_obiektu_UppYpp(0.8,2,simTime);
 Y1=symulacja_obiektu_UppYpp(0.7,2,simTime);
@@ -16,6 +17,7 @@ Y2=symulacja_obiektu_UppYpp(0.9,2,simTime);
 Y3=symulacja_obiektu_UppYpp(0.8,1.9,simTime);
 Y4=symulacja_obiektu_UppYpp(0.8,2.1,simTime);
 
+%wykresy
 figure(1);
 stairs(Y,'r');
 hold on;
@@ -39,13 +41,14 @@ clear Y Y1 Y2 Y3 Y4 simTime
 
 simTime=151;
 
-Y1=stepResponse(0.2,simTime);
-Y2=stepResponse(0.4,simTime);
-Y3=stepResponse(0.6,simTime);
-Y4=stepResponse(1.0,simTime);
-Y5=stepResponse(1.2,simTime);
-Y6=stepResponse(1.4,simTime);
+Y1=stepResponse(0.2,simTime,Upp,Ypp);
+Y2=stepResponse(0.4,simTime,Upp,Ypp);
+Y3=stepResponse(0.6,simTime,Upp,Ypp);
+Y4=stepResponse(1.0,simTime,Upp,Ypp);
+Y5=stepResponse(1.2,simTime,Upp,Ypp);
+Y6=stepResponse(1.4,simTime,Upp,Ypp);
 
+%wykresy
 xVal=[0:simTime-1];
 figure(2);
 stairs(xVal,Y1,'r');
@@ -74,6 +77,7 @@ xVal=[0:0.1:1.6];
 
 Y0=A(2); % wartoœæ sygna³u dla U=0
 
+%wykresy
 figure(3);
 plot(xVal,polyval(A,xVal),'r');
 hold on;
@@ -96,6 +100,7 @@ val=Y4(1);
 DMCstep=(Y4-val)*5.0;
 DMCstep=DMCstep+Y0;
 
+%wykresy
 xVal=[0:simTime-1];
 figure(4);
 stairs(xVal,DMCstep,'r');
@@ -112,13 +117,17 @@ clear Y4 Y0 val xVal simTime
 
 %4. PID
 
-params=[0.01,100000.0,0.0];
-[Y,U,Yzad,E_wsk]=PID_simulation(params);
+%nastawa rêczna
+params=[0.01,100000.0,0.0];  %parametry [K,Ti,Td]
+[Y,U,Yzad,E_wsk,simTime]=PID_simulation(params,Upp);
 
+xVal=[0:simTime-1];
+
+%wykresy
 figure(5);
-stairs(Y,'r');
+stairs(xVal,Y,'r');
 hold on;
-stairs(Yzad,'b');
+stairs(xVal,Yzad,'b');
 grid on;
 xlabel('k');
 ylabel('Y(k)');
@@ -130,7 +139,7 @@ if save==1
 end
 
 figure(6);
-stairs(U,'m');
+stairs(xVal,U,'m');
 xlabel('k');
 ylabel('U(k)');
 title('Nastawa rêczna');
@@ -140,19 +149,22 @@ if save==1
     print('PLOTS/nastawa_reczna_U', '-dpng', '-r500')
 end
 
+%optymalizacja
+
 if optimization==1
-    
+    %paramtery dla optymalizacji
     X0=[0.01, 100000.0, 0.001];
     A=[]; B=[]; Aeq=[]; Beq=[];
     LB=[0.0001, 0.1, 0.0001]; UB=[1.0, 1000, 10];
     X=fmincon(@PID_optimization,X0,A,B,Aeq,Beq,LB,UB);
 
-    [Y,U,Yzad,E_wsk]=PID_simulation(X);
-
+    [Y,U,Yzad,E_wsk,simTime]=PID_simulation(X,Upp);
+    
+    %wykresy
     figure(7);
-    stairs(Y,'r');
+    stairs(xVal,Y,'r');
     hold on;
-    stairs(Yzad,'b');
+    stairs(xVal,Yzad,'b');
     grid on;
     xlabel('k');
     ylabel('Y(k)');
@@ -164,7 +176,7 @@ if optimization==1
     end
     
     figure(8);
-    stairs(U,'m');
+    stairs(xVal,U,'m');
     grid on;
     xlabel('k');
     ylabel('U(k)');
@@ -177,4 +189,4 @@ if optimization==1
     params_optimization=X;
 end
 
-clear A Aeq B Beq E_wsk LB U UB X X0 Y Yzad X params_str
+clear A Aeq B Beq E_wsk LB U UB X X0 Y Yzad X params_str xVal

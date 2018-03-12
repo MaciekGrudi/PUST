@@ -1,6 +1,6 @@
-function Yout=stepResponse(newU,time)
-Upp=0.8;
-Ypp=2.0;
+function Yout=stepResponse(newU,time,Upp,Ypp)
+% Upp=0.8;
+% Ypp=2.0;
 
 k=12;
 Y=Ypp*ones(k-1,1);

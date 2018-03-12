@@ -1,8 +1,8 @@
-function Uout=PID(E,U,k,r0,r1,r2)
+function Uout=PID(E,U,k,r0,r1,r2,Upp)
     deltaMax_U=0.2;
     max_U=1.5;
     min_U=0.1;
-    Upp=0.8;
+%     Upp=0.8;
 
     u=U(k-1)-Upp;
     u_out=r2*E(k-2)+r1*E(k-1)+r0*E(k)+u;
