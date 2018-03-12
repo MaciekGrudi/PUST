@@ -5,6 +5,7 @@ close all;
 % 1. Sprawdzenie Upp i Ypp 
 
 save=0; % 1 - zapis wykresów
+optimization=0; % 1 - wywo³anie optymalizacji
 
 Upp=0.8;
 Ypp=2;
@@ -35,6 +36,7 @@ end
 clear Y Y1 Y2 Y3 Y4 simTime
 
 % 2. Odpowiedzi skokowe dla Upp=0.8
+
 simTime=151;
 
 Y1=stepResponse(0.2,simTime);
@@ -89,6 +91,7 @@ end
 clear Y1 Y2 Y3 Y5 Y6 xVal Y U U2
 
 % 3. OdpowiedŸ skokowa dla DMC
+
 val=Y4(1);
 DMCstep=(Y4-val)*5.0;
 DMCstep=DMCstep+Y0;
@@ -109,16 +112,23 @@ clear Y4 Y0 val xVal simTime
 
 %4. PID
 
-[Y,U,Yzad,E_wsk]=PID_simulation([0.01,100000.0,0.0]);
+params=[0.01,100000.0,0.0];
+[Y,U,Yzad,E_wsk]=PID_simulation(params);
 
 figure(5);
 stairs(Y,'r');
 hold on;
 stairs(Yzad,'b');
+grid on;
 xlabel('k');
 ylabel('Y(k)');
-title(strcat('Nastawa rêczna: E=',num2str(E_wsk)));
-grid on;
+params_str=strcat('K=',num2str(params(1)),', Ti=',num2str(params(2)),', Td=',num2str(params(3)));
+title(strcat('Nastawa rêczna [',params_str,']: E=',num2str(E_wsk)));
+
+if save==1
+    print('PLOTS/nastawa_reczna_Y', '-dpng', '-r500')
+end
+
 figure(6);
 stairs(U,'m');
 xlabel('k');
@@ -126,24 +136,44 @@ ylabel('U(k)');
 title('Nastawa rêczna');
 grid on;
 
-X0=[0.01, 100000.0, 0.001];
-A=[]; B=[]; Aeq=[]; Beq=[];
-LB=[0.001, 0.001, 0.001]; UB=[20, 50, 10];
-X=fmincon(@PID_simulation_optimization,X0,A,B,Aeq,Beq,LB,UB);
+if save==1
+    print('PLOTS/nastawa_reczna_U', '-dpng', '-r500')
+end
 
-[Y,U,Yzad,E_wsk]=PID_simulation(X);
+if optimization==1
+    
+    X0=[0.01, 100000.0, 0.001];
+    A=[]; B=[]; Aeq=[]; Beq=[];
+    LB=[0.001, 0.001, 0.001]; UB=[20, 50, 10];
+    X=fmincon(@PID_simulation_optimization,X0,A,B,Aeq,Beq,LB,UB);
 
-figure(7);
-stairs(Y,'r');
-hold on;
-stairs(Yzad,'b');
-xlabel('k');
-ylabel('Y(k)');
-title(strcat('Optymalizacja: E=',num2str(E_wsk)));
-grid on;
-figure(8);
-stairs(U,'m');
-xlabel('k');
-grid on;
-ylabel('U(k)');
-title('Optymalizacja');
+    [Y,U,Yzad,E_wsk]=PID_simulation(X);
+
+    figure(7);
+    stairs(Y,'r');
+    hold on;
+    stairs(Yzad,'b');
+    grid on;
+    xlabel('k');
+    ylabel('Y(k)');
+    params_str=strcat('K=',num2str(X(1)),', Ti=',num2str(X(2)),', Td=',num2str(X(3)));
+    title(strcat('Optymalizacja [',params_str,']: E=',num2str(E_wsk)));
+    
+    if save==1
+        print('PLOTS/optymalizacja_Y', '-dpng', '-r500')
+    end
+    
+    figure(8);
+    stairs(U,'m');
+    grid on;
+    xlabel('k');
+    ylabel('U(k)');
+    title('Optymalizacja');
+    
+    if save==1
+        print('PLOTS/optymalizacja_U', '-dpng', '-r500')
+    end
+
+end
+
+clear A Aeq B Beq E_wsk LB U UB X X0 Y Yzad
