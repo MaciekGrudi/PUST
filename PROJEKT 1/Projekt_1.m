@@ -16,12 +16,12 @@ Y3=symulacja_obiektu_UppYpp(0.8,1.9,simTime);
 Y4=symulacja_obiektu_UppYpp(0.8,2.1,simTime);
 
 figure(1);
-plot(Y,'r');
+stairs(Y,'r');
 hold on;
-plot(Y1,'b--');
-plot(Y2,'g--');
-plot(Y3,'m--');
-plot(Y4,'k--');
+stairs(Y1,'b--');
+stairs(Y2,'g--');
+stairs(Y3,'m--');
+stairs(Y4,'k--');
 legend('Upp=0.8, Ypp=2.0','Upp=0.7, Ypp=2.0','Upp=0.9, Ypp=2.0','Upp=0.8, Ypp=1.9', 'Upp=0.8, Ypp=2.1');
 title('Ró¿ne wartoœci Upp, Ypp');
 xlabel('k');
@@ -46,13 +46,13 @@ Y6=stepResponse(1.4,simTime);
 
 xVal=[0:simTime-1];
 figure(2);
-plot(xVal,Y1,'r');
+stairs(xVal,Y1,'r');
 hold on;
-plot(xVal,Y2,'b');
-plot(xVal,Y3,'g');
-plot(xVal,Y4,'m');
-plot(xVal,Y5,'k');
-plot(xVal,Y6,'c');
+stairs(xVal,Y2,'b');
+stairs(xVal,Y3,'g');
+stairs(xVal,Y4,'m');
+stairs(xVal,Y5,'k');
+stairs(xVal,Y6,'c');
 grid on;
 xlabel('k');
 ylabel('Y(k)');
@@ -95,7 +95,7 @@ DMCstep=DMCstep+Y0;
 
 xVal=[0:simTime-1];
 figure(4);
-plot(xVal,DMCstep,'r');
+stairs(xVal,DMCstep,'r');
 grid on;
 xlabel('k');
 ylabel('Y(k)');
@@ -107,5 +107,43 @@ end
 
 clear Y4 Y0 val xVal simTime 
 
+%4. PID
 
+[Y,U,Yzad,E_wsk]=PID_simulation([0.01,100000.0,0.0]);
 
+figure(5);
+stairs(Y,'r');
+hold on;
+stairs(Yzad,'b');
+xlabel('k');
+ylabel('Y(k)');
+title(strcat('Nastawa rêczna: E=',num2str(E_wsk)));
+grid on;
+figure(6);
+stairs(U,'m');
+xlabel('k');
+ylabel('U(k)');
+title('Nastawa rêczna');
+grid on;
+
+X0=[0.01, 100000.0, 0.001];
+A=[]; B=[]; Aeq=[]; Beq=[];
+LB=[0.001, 0.001, 0.001]; UB=[20, 50, 10];
+X=fmincon(@PID_simulation_optimization,X0,A,B,Aeq,Beq,LB,UB);
+
+[Y,U,Yzad,E_wsk]=PID_simulation(X);
+
+figure(7);
+stairs(Y,'r');
+hold on;
+stairs(Yzad,'b');
+xlabel('k');
+ylabel('Y(k)');
+title(strcat('Optymalizacja: E=',num2str(E_wsk)));
+grid on;
+figure(8);
+stairs(U,'m');
+xlabel('k');
+grid on;
+ylabel('U(k)');
+title('Optymalizacja');

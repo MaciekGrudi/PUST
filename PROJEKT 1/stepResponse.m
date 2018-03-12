@@ -3,12 +3,8 @@ Upp=0.8;
 Ypp=2.0;
 
 k=12;
-Y=zeros(k,1);
-U=zeros(k,1);
-for i=1:k-1
-    U(i)=Upp;
-    Y(i)=Ypp;
-end
+Y=Ypp*ones(k-1,1);
+U=Upp*ones(k-1,1);
 
 for k=12:time+11
     U(k)=newU;
