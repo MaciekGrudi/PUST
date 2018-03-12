@@ -15,10 +15,6 @@ for k=12:time+11
     Y(k)=symulacja_obiektu7Y(U(k-10),U(k-11),Y(k-1),Y(k-2));
 end
 
-%Yout=zeros(time,1);
-%Yout=Y(12:time+12);
-%Y=zeros(time,1);
-%Y=Yout;
 Yout=Y(12:time+11);
 
 end
