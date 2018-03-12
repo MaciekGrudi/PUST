@@ -119,9 +119,9 @@ clear Y4 Y0 val xVal simTime
 
 %nastawa rêczna
 params=[0.01,100000.0,0.0];  %parametry [K,Ti,Td]
-[Y,U,Yzad,E_wsk,simTime]=PID_simulation(params,Upp);
+[Y,U,Yzad,E_wsk]=PID_simulation(params,Upp);
 
-xVal=[0:simTime-1];
+xVal=[0:length(Y)-1];
 
 %wykresy
 figure(5);
@@ -158,7 +158,7 @@ if optimization==1
     LB=[0.0001, 0.1, 0.0001]; UB=[1.0, 1000, 10];
     X=fmincon(@PID_optimization,X0,A,B,Aeq,Beq,LB,UB);
 
-    [Y,U,Yzad,E_wsk,simTime]=PID_simulation(X,Upp);
+    [Y,U,Yzad,E_wsk]=PID_simulation(X,Upp);
     
     %wykresy
     figure(7);

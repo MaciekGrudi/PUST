@@ -1,4 +1,4 @@
-function [Y,U,Yzad,E_wsk,simTime]=PID_simulation(params,Upp)
+function [Y,U,Yzad,E_wsk]=PID_simulation(params,Upp)
     Upp=0.8;
     Ypp=2.0;
     T=0.5;
