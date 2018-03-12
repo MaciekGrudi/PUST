@@ -144,8 +144,8 @@ if optimization==1
     
     X0=[0.01, 100000.0, 0.001];
     A=[]; B=[]; Aeq=[]; Beq=[];
-    LB=[0.001, 0.001, 0.001]; UB=[20, 50, 10];
-    X=fmincon(@PID_simulation_optimization,X0,A,B,Aeq,Beq,LB,UB);
+    LB=[0.0001, 0.1, 0.0001]; UB=[1.0, 1000, 10];
+    X=fmincon(@PID_optimization,X0,A,B,Aeq,Beq,LB,UB);
 
     [Y,U,Yzad,E_wsk]=PID_simulation(X);
 
@@ -174,6 +174,7 @@ if optimization==1
         print('PLOTS/optymalizacja_U', '-dpng', '-r500')
     end
 
+    params_optimization=X;
 end
 
-clear A Aeq B Beq E_wsk LB U UB X X0 Y Yzad
+clear A Aeq B Beq E_wsk LB U UB X X0 Y Yzad X params_str

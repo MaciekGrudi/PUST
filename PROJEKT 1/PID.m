@@ -3,11 +3,6 @@ function Uout=PID(E,U,k,r0,r1,r2)
     max_U=1.5;
     min_U=0.1;
     Upp=0.8;
-    
-%     K=0.01; Ti=0.5; Td=0.0; T=0.5;
-%     r0=K*(1+T/(2*Ti)+Td/T);
-%     r1=K*(1+T/(2*Ti)+Td/T);
-%     r2=(K*Td)/T;
 
     u=U(k-1)-Upp;
     u_out=r2*E(k-2)+r1*E(k-1)+r0*E(k)+u;
