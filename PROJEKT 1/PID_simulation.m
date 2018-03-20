@@ -14,7 +14,7 @@ function [Y,U,Yzad,E_wsk]=PID_simulation(params,Upp)
 
     K=params(1); Ti=params(2); Td=params(3);
     r0=K*(1+T/(2*Ti)+Td/T);
-    r1=K*(1+T/(2*Ti)+Td/T);
+    r1=K*(T/(2*Ti)-2.0*Td/T-1);
     r2=(K*Td)/T;
     
     E_wsk=0;
