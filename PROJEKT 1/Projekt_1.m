@@ -8,7 +8,7 @@ Ypp=2;
 % 1. Sprawdzenie Upp i Ypp 
 
 save=0; % 1 - zapis wykresów
-optimization=0; % 1 - wywo³anie optymalizacji
+optimization=1; % 1 - wywo³anie optymalizacji
 
 simTime=100;
 Y=symulacja_obiektu_UppYpp(0.8,2,simTime);
