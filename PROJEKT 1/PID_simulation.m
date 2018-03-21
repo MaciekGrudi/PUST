@@ -1,5 +1,5 @@
 function [Y,U,Yzad,E_wsk]=PID_simulation(params,Upp)
-    Upp=0.8;
+    %Upp=0.8;
     Ypp=2.0;
     T=0.5;
     
@@ -33,7 +33,7 @@ function [Y,U,Yzad,E_wsk]=PID_simulation(params,Upp)
         U(k)=PID(E,U,k,r0,r1,r2,Upp);
         Y(k)=symulacja_obiektu7Y(U(k-10),U(k-11),Y(k-1),Y(k-2));
 
-        E_wsk=E_wsk+(E(k)*E(k));
+        E_wsk=E_wsk+(Yzad(k)-Y(k))^2;
     end
     
     Y=Y(K_init+1:simTime+K_init);

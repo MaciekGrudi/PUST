@@ -5,7 +5,9 @@ close all;
 Upp=0.8;
 Ypp=2;
 
+%--------------------------------------------------------------------------
 % 1. Sprawdzenie Upp i Ypp 
+%--------------------------------------------------------------------------
 
 save=0; % 1 - zapis wykresów
 optimization=1; % 1 - wywo³anie optymalizacji
@@ -37,7 +39,9 @@ end
 
 clear Y Y1 Y2 Y3 Y4 simTime
 
+%--------------------------------------------------------------------------
 % 2. Odpowiedzi skokowe dla Upp=0.8
+%--------------------------------------------------------------------------
 
 simTime=151;
 
@@ -75,8 +79,6 @@ U2=[U ones(7,1)];
 A=U2\Y;
 xVal=[0:0.1:1.6];
 
-Y0=A(2); % wartoœæ sygna³u dla U=0
-
 %wykresy
 figure(3);
 plot(xVal,polyval(A,xVal),'r');
@@ -94,11 +96,12 @@ end
 
 clear Y1 Y2 Y3 Y5 Y6 xVal Y U U2
 
+%--------------------------------------------------------------------------
 % 3. OdpowiedŸ skokowa dla DMC
+%--------------------------------------------------------------------------
 
 val=Y4(1);
 DMCstep=(Y4-val)*5.0;
-DMCstep=DMCstep+Y0;
 
 %wykresy
 xVal=[0:simTime-1];
@@ -115,10 +118,11 @@ end
 
 clear Y4 Y0 val xVal simTime 
 
+%--------------------------------------------------------------------------
 %4. PID
-
+%--------------------------------------------------------------------------
 %nastawa rêczna
-params=[0.01,100000.0,0.0];  %parametry [K,Ti,Td]
+params=[1.0,10.0,0.0];  %parametry [K,Ti,Td]
 [Y,U,Yzad,E_wsk]=PID_simulation(params,Upp);
 
 xVal=[0:length(Y)-1];
@@ -153,9 +157,9 @@ end
 
 if optimization==1
     %paramtery dla optymalizacji
-    X0=[0.01, 100000.0, 0.001];
+    X0=[1.0,10.0,0.0];
     A=[]; B=[]; Aeq=[]; Beq=[];
-    LB=[0.0001, 0.1, 0.0001]; UB=[1.0, 1000, 10];
+    LB=[0.0001, 1.0, 0.0001]; UB=[5.0, 1000.0, 10.0];
     X=fmincon(@PID_optimization,X0,A,B,Aeq,Beq,LB,UB);
 
     [Y,U,Yzad,E_wsk]=PID_simulation(X,Upp);
