@@ -36,6 +36,7 @@ Aby otrzymać odpowiedź skokową wykorzystywaną w algorytmie DMC należy pobud
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 \section{Programy do symulacji algorytmów}
 Programy do symulacji algorytmów zostały zaimplementowane w plikach \texttt{PID.m} i \texttt{DMC.m}. Funkcje te są wywoływane w każdej kolejnej dyskretnej chwili $k$ i obliczają wartość sterowania jaką należy przesłać na obiekt. Na wejście przyjmują więc obecne wartości zmiennych (PID - uchyb $E$, numer dyskretnej chwili $k$, parametry regulatora dyskretnego $r_{\mathrm{0}}$, $r_{\mathrm{1}}$, $r_{\mathrm{2}}$ i wartość punktu pracy $U_{\mathrm{pp}}$, a DMC dodatkowo jeszcze macierze $K$, $M_{\mathrm{P}}$, wektor $\Delta U_{\mathrm{P}}$). Nakładają one także omówione wcześniej ograniczenia na sygnał sterujący. Funkcje te wywoływane są przez funkcje przeprowadzające symulacje \texttt{PIDsimulation.m} i \texttt{DMCsimulation.m}, które to z kolei zwracają wartości wyjścia, sterowania i wskaznika jakości i przekazują je do głównego programu.
@@ -44,6 +45,8 @@ Programy do symulacji algorytmów zostały zaimplementowane w plikach \texttt{PI
 Nastawy regulatora PID i parametry regulatora DMC dobieraliśmy metodą eksperymentalną, tj powoli i cierpliwie zmieniając ich wartości oraz obserwując rysunki przedstawiające przebiegi wyjścia procesu. Jak się okazuje optymalnie działający regulator PID przy nastawach ręcznych otrzymaliśmy przy następujących wartościach: $K=\num{0.01}$, $T_\mathrm{i}=10000$, $T_\mathrm{d}=0$, natomiast wskaznik jakości przyjął w tym wypadku wartość $E=\num{122.243}$. Dla algorytmu DMC optymalnymi okazały się parametry: $N=200$, $N_\mathrm{u}=15$, $\lambda=1$. Wyniki symulacji z takimi parametrami znajdują się na rysunkach: //TODO
 \section{Optymalizacja wskaźnika jakości}
 =======
+=======
+>>>>>>> 1aa569faa9f60a46403ca971df9c995fe9adabf0
 =======
 >>>>>>> 1aa569faa9f60a46403ca971df9c995fe9adabf0
 =======
@@ -66,6 +69,10 @@ Dla regulatora PID do doboru optymalnych parametrów wykorzystano funkcję
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+W przypadku regulatora DMC ze względu na parametry $N$, $N_u$ przyjmujące wartości całkowite należało zastosować funkcję umożliwiającą optymalizację wskaźnika jakości dla parametrów o wartościach całkowitych. W tym celu wykorzystano funkcję \verb+ga+, czyli funkcję wykorzystującą algorytm genetyczny do optymalizacji. W ten sposób otrzymano parametry $N=43$, $N_\mathrm{u}=1$, $\lambda=\num{1.0555}$. Wskaźnik jakości dla tych parametrów wynosi $E=\num{60.369}$.
+>>>>>>> 1aa569faa9f60a46403ca971df9c995fe9adabf0
+=======
 W przypadku regulatora DMC ze względu na parametry $N$, $N_u$ przyjmujące wartości całkowite należało zastosować funkcję umożliwiającą optymalizację wskaźnika jakości dla parametrów o wartościach całkowitych. W tym celu wykorzystano funkcję \verb+ga+, czyli funkcję wykorzystującą algorytm genetyczny do optymalizacji. W ten sposób otrzymano parametry $N=43$, $N_\mathrm{u}=1$, $\lambda=\num{1.0555}$. Wskaźnik jakości dla tych parametrów wynosi $E=\num{60.369}$.
 >>>>>>> 1aa569faa9f60a46403ca971df9c995fe9adabf0
 =======
