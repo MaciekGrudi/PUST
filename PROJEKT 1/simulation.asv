@@ -2,12 +2,6 @@ function [e,step] = simulation(params,delay,Y)
     
     p = zeros(4,1);
     
-    if(params(1) == params(2))
-        e = Inf;
-        step = zeros(2,1);
-        return;
-    end
-    
     a1 = exp(-1/params(1));
     a2 = exp(-1/params(2));
     K = params(3)/(params(1)-params(2));
