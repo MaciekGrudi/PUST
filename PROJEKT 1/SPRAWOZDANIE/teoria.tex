@@ -1,0 +1,40 @@
+\chapter{Podstawy teoretyczne}
+
+\section{Charakterystyka skokowa}
+Podstawowym opisem działania każdego układu regulacji są trzy charakterystyki: \textit{skokowa}, \textit{impulsowa} i \textit{częstotliwościowa}. W przypadku tego zadania badaliśmy jedynie charakterystykę skokową. Definiuje się ją jako odpowiedź układu na wymuszenie w postaci skoku jednostkowego przy zerowych warunkach początkowych. Innymi słowy, jest to przebieg wyjścia $y(t)$ układu przy sterowaniu:
+\begin{equation}
+u(t)=
+\begin{cases}
+0 & \textrm{gdy } t < 0\\
+1 & \textrm{gdy } t \ge 0
+\end{cases}
+\nonumber
+\end{equation}
+Metoda umożliwia proste wyznaczenie charakterystyki statycznej $y(u)$  dla danej wartości sterowania $u$.
+
+\section{Algorytm PID}
+Aglorytm PID (w tym przypadku dyskretny) jest jednym z prostszych i najbardziej znanych sposobów na wyznaczenie wartości sterowania w automatycznym układzie regulacji. Taki regulator oblicza wartość uchybu $e(k)$ jako różnicę pomiędzy wartością zadaną $y^{\mathrm{zad}}(k)$, a rzeczywistą zmienną procesu $y(k)$ i dąży do tego, aby ten uchyb zminimalizować. Regulator składa się z trzech członów (proporcjonalnego, całkującego i różniczkującego). 
+
+Parametrami algorytmu dostrajanymi przez projektanta są:
+
+\begin{itemize}
+	\item wzmocnienie $k$
+	\item stała całkowania $T_{\mathrm{i}}$
+	\item stała różniczkowania $T_{mathrm{d}}$
+\end{itemize} 
+
+Zasada działania regulatora PID jest bardzo prosta, największy problem sprawia dobór odpowiednich parametrów w taki sposób, aby znaleźć zadowalający nas balans między szybkością regulacji, przeregulowaniem i uchybem ustalonym. Jest on prosty w implementacji i nie wymaga dużych nakładów obliczeniowych. Niestety, sprawdza się on dobrze tylko w przypadku układów z łagodną dynamiką i niewielkimi opóźnieniami.
+
+\section{Algorytm DMC}
+W przypadku obiektów z dużym opóźnieniem znacznie lepsze efekty przynosi zastosowanie algorytmów predykcyjnych, tzn. takich, które nie tylko wykorzystują obecną wartość wyjścia układu, ale także przewidują jego przyszłe zachowanie. Przykładem takiego algorytmu jest algorytm DMC. W każdej kolejnej dyskretnej chwili na podstawie obecnego stanu układu i w zależności od dobranych parametrów oblicza wektor przyszłych wartości sterowania i wykorzystuje pierwszy jego element $\Delta u(k|k)$ jako właściwą wartość wysyłaną na sterowanie obiektem.
+
+Parametrami algorytmu dostrajanymi przez projektanta są:
+
+\begin{itemize}
+	\item horyzont sterowania $N_{\mathrm{u}}$
+	\item horyzont predykcji $N$
+	\item parametr $\lambda$
+\end{itemize} 
+
+\section{Ograniczenia}
+W przypadku sterowania obiektem rzeczywistym bardzo ważną rolę pełnią ograniczenia narzucane na projektanta przez fizyczne właściwości sprzętu. Ograniczeń takich są dwa typy - na wartość sterowania oraz na jej przyrost. Niezastosowanie się do tych restrykcji może spowodować zniszczenie sprzętu, ważna jest więc ich implementacja w kodzie algorytmu. Na szczęście jest to bardzo proste - wystarczy obliczone wartości rzutować na dopuszczalny ich zbiór przed przekazaniem ich na obiekt.
