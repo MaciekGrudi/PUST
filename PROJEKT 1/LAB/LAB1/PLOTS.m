@@ -30,6 +30,23 @@ G2=G;
 step2=step;
 clear step G;
 
+Y6=step6(350);
+Y3=step3(250);
+Y2=step2(250);
+
+figure(7);
+plot([10 20 30],[Y3 Y2 Y6]);
+grid on;
+xlabel('U');
+ylabel('Y');
+title('Charakterystyka statyczna obiektu');
+legend('Y(U)');
+
+if save_==1
+    print('PLOTS_DIR/static_char', '-dpng', '-r500');
+    matlab2tikz('PLOTS_DIR/static_char.tex','showInfo',false);
+end
+
 figure(2)
 stairs(step6,'r');
 hold on;

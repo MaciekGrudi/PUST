@@ -9,9 +9,9 @@
 \contentsline {section}{\numberline {3.2\relax .\kern .5em }Programy do symulacji algorytm\IeC {\'o}w}{5}
 \contentsline {section}{\numberline {3.3\relax .\kern .5em }R\IeC {\k e}czny dob\IeC {\'o}r odpowiednich warto\IeC {\'s}ci parametr\IeC {\'o}w}{7}
 \contentsline {section}{\numberline {3.4\relax .\kern .5em }Optymalizacja wska\IeC {\'z}nika jako\IeC {\'s}ci}{7}
-\contentsline {chapter}{\numberline {4\relax .\kern .5em }Sterowanie rzeczywistym obiektem - cz\IeC {\k e}\IeC {\'s}\IeC {\'c} laboratoryjna}{8}
-\contentsline {section}{\numberline {4.1\relax .\kern .5em }Odpowiedzi skokowe}{8}
-\contentsline {section}{\numberline {4.2\relax .\kern .5em }Programy do symulacji algorytm\IeC {\'o}w}{8}
-\contentsline {section}{\numberline {4.3\relax .\kern .5em }Regulator PID}{8}
-\contentsline {section}{\numberline {4.4\relax .\kern .5em }Algorytm DMC}{8}
-\contentsline {chapter}{\numberline {5\relax .\kern .5em }Wnioski}{9}
+\contentsline {chapter}{\numberline {4\relax .\kern .5em }Sterowanie rzeczywistym obiektem - cz\IeC {\k e}\IeC {\'s}\IeC {\'c} laboratoryjna}{9}
+\contentsline {section}{\numberline {4.1\relax .\kern .5em }Odpowiedzi skokowe}{9}
+\contentsline {section}{\numberline {4.2\relax .\kern .5em }Programy do symulacji algorytm\IeC {\'o}w}{11}
+\contentsline {section}{\numberline {4.3\relax .\kern .5em }Regulator PID}{13}
+\contentsline {section}{\numberline {4.4\relax .\kern .5em }Algorytm DMC}{15}
+\contentsline {chapter}{\numberline {5\relax .\kern .5em }Wnioski}{18}

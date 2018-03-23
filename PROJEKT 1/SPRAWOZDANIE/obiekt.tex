@@ -1,9 +1,173 @@
 \chapter{Sterowanie rzeczywistym obiektem - część laboratoryjna}
-Zadanie laboratoryjne polegało na zebraniu danych z rzeczywistego obiektu oraz implementacji na nim algorytmów regulacji PID i DMC. Badanym obiektem było stanowisko grzewczo-chłodzące. Obiekt ten charakteryzuje się opóźnieniem na wejściu oraz wolną dynamiką. Taka charakterystyka obiektu wpływa na efektywność regulat 
+Zadanie laboratoryjne polegało na zebraniu danych z rzeczywistego obiektu oraz implementacji na nim algorytmów regulacji PID i DMC. Badanym obiektem było stanowisko grzewczo-chłodzące. Obiekt ten charakteryzuje się opóźnieniem na wejściu oraz wolną dynamiką. Taka charakterystyka obiektu ma znaczący wpływ na jakość danych regulatorów.\\
+Do zadania sterowania, jako wejście posłużyła moc grzałki sterowana w granicach 0-100\% (G1), wyjściem była temperatura mierzona przy grzałce (T1). Dodatkowo zostało wprowadzone stałe zakłócenie w postaci wentylatora (W1) któego moc była ustawiona na 50\% (traktowane jako cecha otoczenia).
 \section{Odpowiedzi skokowe}
-
+Pierwszą częścią zadania było pobranie odpowiedzi skokowych z obiektu zaczynając z ustalonego punktu pracy. Wybranym przez nas puktem pracy było $U_\mathrm{pp}=0$. Dla takiej wartości, wartość wyjścia w punkcie pracy wynosiła około $Y_\mathrm{pp}=24$. Wykonano 3 eksperymenty dla różnych skoków sterowania. Ich efekty przedstawione są poniżej:
+\begin{figure}
+\input{./PLOTS/raw_step_resp.tex}
+\end{figure}
+Doświadczenie dla $U=30$ zostało przeprowadzone na dłuższej próbie czasowej ze względu na dłuższy czas ustalenia się wyjścia obiektu dla zadanego sterowania. Już na pierwszy rzut oka można stwierdzić, że obiekt ten jest liniowy co potwierdza tylko jego charakterystyka statyczna. Tak zebrane odpowiedzi skokowe posłużyły następnie do wyznaczenie dopowiedzi skokowej dla skoku jendostkowego, która następnie posłużyła do implementacji algorytmu DMC.
+\begin{figure}
+\input{./PLOTS/static_char.tex}
+%\input{./PLOTS/DMC_step_resp.tex}
+ \includegraphics{./PLOTS/DMC_step_resp.png}
+\end{figure}
+\FloatBarrier
 \section{Programy do symulacji algorytmów}
+Lsitingi programów do symulacji przedstawiają się następująco:\\\\
+Alogrytm PID:
+\begin{lstlisting}[style=customc,frame=single] 
+function [Y,U,Yzad] = PID(K,Ti,Td)
+addpath('F:\SerialCommunication'); % add a path to the functions
+initSerialControl COM3 % initialise com port
+
+simTime=400;
+
+T=1.0;
+r0=K*(1+T/(2*Ti)+Td/T);
+r1=K*(T/(2*Ti)-2.0*Td/T-1);
+r2=(K*Td)/T;
+
+min_U=0.0;
+max_U=100.0;
+Upp=0;
+Ypp=24;
+y_zad=26;
+
+E=zeros(2,1);
+U=Upp*ones(2,1);
+Y=Ypp*ones(2,1);
+Yzad=y_zad*ones(2,1);
+
+k=3;
+
+time_buf=200;
+U_buf=zeros(time_buf,1);
+Y_buf=Ypp*ones(time_buf,1);
+Yzad_buf=y_zad*ones(time_buf,1);
+
+%while(1)
+for k=3:simTime
+
+if k<200
+Yzad(k)=26;
+else 
+Yzad(k)=28;
+end
+
+E(k)=Yzad(k)-Y(k-1);
+
+U(k)=r2*E(k-2)+r1*E(k-1)+r0*E(k)+U(k-1);
+
+if U(k) > max_U
+U(k)=max_U;
+elseif U(k)<min_U
+U(k)=min_U;
+end
+
+sendControls([ 1, 5], ...
+[ 50, U(k)]);  
+
+Y(k) = readMeasurements(1); % read measurements from 1 to 7              
+
+Y_buf(1:time_buf-1)=Y_buf(2:time_buf);
+Y_buf(time_buf)=Y(k);
+Yzad_buf(1:time_buf-1)=Yzad_buf(2:time_buf);
+Yzad_buf(time_buf)=Yzad(k);
+U_buf(1:time_buf-1)=U_buf(2:time_buf);
+U_buf(time_buf)=U(k);
+
+figure(1);
+subplot(2,1,1);
+stairs(U_buf,'b');
+ylabel('U');
+xlabel('k');
+title('U(k)');
+subplot(2,1,2);
+stairs(Yzad_buf,'--r');
+hold on;
+stairs(Y_buf, 'b');
+ylabel('Y');
+xlabel('k');
+title('Y(k)');
+hold off;
+drawnow;
+
+%k=k+1;
+
+%% synchronising with the control process
+waitForNewIteration(); % wait for new batch of measurements to be ready
+end
+end
+\end{lstlisting}
+Alogrytm DMC:
+\begin{lstlisting}[style=customc,frame=single] 
+function [Uout,DUP] = DMC(K,MP,DUP,U,Y,Yzad,k,Upp)
+
+%global limits
+limits=1;
+
+Ypp = 2;
+Umin = 0;
+Umax = 100;
+dUmax = 10;
+
+u = U - Upp;
+y = Y - Ypp;
+yzad = Yzad - Ypp;
+umin = Umin - Upp;
+umax = Umax - Upp;
+dumax = dUmax;
+
+D = length(DUP) + 1;
+N = size(MP,1);
+
+DUP = [u(k-1) - u(k-2) ; DUP(1:D-2)];
+
+vec_Y0 = y(k)*ones(N,1)+MP*DUP;
+vec_Yzad = yzad(k)*ones(N,1);
+
+du = K*(vec_Yzad-vec_Y0);
+if limits ~= 0
+if du(1) < -dumax
+du(1) = -dumax;
+end;
+if du(1) > dumax
+du(1) = dumax;
+end;
+u(k) = du(1) + u(k-1);
+if u(k) < umin
+u(k) = umin;
+end;
+if u(k) > umax
+u(k) = umax;
+end;
+
+else
+u(k) = du(1)+u(k-1);
+end;
+
+Uout = u(k)+Upp;
+end
+\end{lstlisting}
 
 \section{Regulator PID}
-
+Poniższy wykres przedstawia działanie zaimplementowanego algorytmu PID na obikecie. Nastawy zostały wybrane dla niego metodą inżynierską i są następujące: $K=9$, $T_\mathrm{i}=45$, $T_\mathrm{d}=0.02$. Wynik eksperymentu dla dwóch skoków wartości zadanej są przedstawione na poniższym wykresie:
+\begin{figure}
+\input{./PLOTS/PID_9_45_0_02_Y.tex}
+\end{figure}
+\begin{figure}
+\input{./PLOTS/PID_9_45_0_02_U.tex}
+\end{figure}
+\FloatBarrier
+Jak widać regulator PID słabo radzi sobie z regulacją obiektu o tak wolnej dynamice. Wynika to z faktu że operuje on tylko na danych pochodzących bezpośrednio z obiektu i nie może w żaden sposób przewidzieć jego zachowania w przyszłości, dla którego mógłby dostosować wartość sterowania. W takim przypadku lepiej radzi sobie algorytm DMC.
 \section{Algorytm DMC}
+Poniższy wykres przedstawia przebiegi regultora DMC dla danego obiektu. W obu przypadkach uzyto identycznych horyzontów dynamiki i sterowania wynoszących odpowiednio: $N_\mathrm{D}=400$, $N_\mathrm{U}=200$. Przeprowadzono dwa eksperymenty dla różnych wartości lambda: $0.1$ i $1.0$. Oto ekfekty przprowadzonych doświadczeń:
+\begin{figure}
+	\input{./PLOTS/DMC_Y.tex}
+\end{figure}
+\begin{figure}
+	\input{./PLOTS/DMC_U.tex}
+\end{figure}
+\FloatBarrier
+Jak widać na powyższych wykresach algorytm DMC radzi sobie znacznie lepiej przy sterowaniu obiektem o wolniejszej dynamice, niż algorytm PID. Wynika to z faktu iż DMC posługuje się modelem obiektu w postaci odpowiedzi skokowej, dzięki czemu może on przewidzieć zachowanie się obieku w danej sytuacji i odpowiednio wcześniej reagować, zmieniając wartości sterwoania przez co osaiąga on wartość zadaną w zancznie szybszy i stabliniejszy sposób niż PID.
