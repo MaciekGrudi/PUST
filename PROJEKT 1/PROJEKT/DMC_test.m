@@ -2,8 +2,8 @@ clear all
 
 limits = 1;
 Upp = 0.8;
-%params = [50 1 1.5];
-params = [43 1 1.0555];
+params = [50 1 1.5];
+%params = [43 1 1.0555];
 
 [Y,U,Yzad,E] = DMC_simulation(params,Upp);
 
