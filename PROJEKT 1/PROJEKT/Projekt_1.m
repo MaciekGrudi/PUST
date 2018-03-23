@@ -9,7 +9,7 @@ Ypp=2;
 % 1. Sprawdzenie Upp i Ypp 
 %--------------------------------------------------------------------------
 
-save=0; % 1 - zapis wykresów
+save=1; % 1 - zapis wykresów
 optimization=1; % 1 - wywo³anie optymalizacji
 
 simTime=100;
@@ -35,6 +35,7 @@ grid on;
 
 if save==1
     print('PLOTS/UppYpp', '-dpng', '-r500')
+    matlab2tikz('PLOTS/UppYpp.tex','showInfo',false);
 end
 
 clear Y Y1 Y2 Y3 Y4 simTime
@@ -70,6 +71,7 @@ title('Odpowiedzi skokowe dla Upp=0.8');
 
 if save==1
     print('PLOTS/step_response_Upp_0_8', '-dpng', '-r500')
+    matlab2tikz('PLOTS/step_response_Upp_0_8.tex','showInfo',false);
 end
 
 Y=[Y1(simTime);Y2(simTime);Y3(simTime);2.0;Y4(simTime);Y5(simTime);Y6(simTime)];
@@ -92,6 +94,7 @@ legend('prosta najlepszego dopasowania','dane z modelu');
 
 if save==1
     print('PLOTS/static_characteristics', '-dpng', '-r500')
+    matlab2tikz('PLOTS/static_characteristics.tex','showInfo',false);
 end
 
 clear Y1 Y2 Y3 Y5 Y6 xVal Y U U2
@@ -114,6 +117,7 @@ title('OdpowiedŸ skokowa dla DMC');
 
 if save==1
     print('PLOTS/DMC_step_response', '-dpng', '-r500')
+    matlab2tikz('PLOTS/DMC_step_response.tex','showInfo',false);
 end
 
 clear Y4 Y0 val xVal simTime 
@@ -140,6 +144,7 @@ title(strcat('Nastawa rêczna [',params_str,']: E=',num2str(E_wsk)));
 
 if save==1
     print('PLOTS/nastawa_reczna_Y', '-dpng', '-r500')
+    matlab2tikz('PLOTS/nastawa_reczna_Y.tex','showInfo',false);
 end
 
 figure(6);
@@ -151,6 +156,7 @@ grid on;
 
 if save==1
     print('PLOTS/nastawa_reczna_U', '-dpng', '-r500')
+    matlab2tikz('PLOTS/nastawa_reczna_U.tex','showInfo',false);
 end
 
 %optymalizacja
@@ -177,6 +183,7 @@ if optimization==1
     
     if save==1
         print('PLOTS/optymalizacja_Y', '-dpng', '-r500')
+        matlab2tikz('PLOTS/optymalizacja_Y.tex','showInfo',false);
     end
     
     figure(8);
@@ -188,6 +195,7 @@ if optimization==1
     
     if save==1
         print('PLOTS/optymalizacja_U', '-dpng', '-r500')
+        matlab2tikz('PLOTS/optymalizacja_U.tex','showInfo',false);
     end
 
     params_optimization=X;
