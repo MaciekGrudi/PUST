@@ -4,7 +4,7 @@ global Y
 
 e_min = 100;
 
-for delay = 1:20
+for delay = 1:30
     global delay
     X0=[1, 1, 1, 1];
     A=[]; B=[]; Aeq=[]; Beq=[];
