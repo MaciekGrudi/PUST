@@ -1,0 +1,105 @@
+save_=1;
+
+load DMCstep;
+figure(1)
+stairs(DMCstep);
+xlabel('k');
+ylabel('Y');
+title('Przekszta≥cona odpowiedü skokowa obiektu');
+grid on;
+legend('Y(k)');
+if save_==1
+     print('PLOTS_DIR/DMC_step_resp', '-dpng', '-r500');
+     matlab2tikz('PLOTS_DIR/DMC_step_resp.tex','showInfo',false);
+end
+
+clear step G;
+load step6;
+G6=G;
+step6=step;
+clear step G;
+load step3;
+G3=G;
+step3=step;
+clear step G;
+load step2;
+G2=G;
+step2=step;
+clear step G;
+
+figure(2)
+stairs(step6,'r');
+hold on;
+stairs(step3,'b');
+stairs(step2,'g');
+grid on;
+xlabel('k');
+ylabel('Y');
+title('Odpowiedzi skokowe obiektu dla Upp=0, Ypp=24');
+leg_G6=strcat('U=',num2str(G6));
+leg_G3=strcat('U=',num2str(G3));
+leg_G2=strcat('U=',num2str(G2));
+legend(leg_G6,leg_G3,leg_G2);
+%axis([0 400 22 36]);
+
+if save_==1
+    print('PLOTS_DIR/raw_step_resp', '-dpng', '-r500');
+    matlab2tikz('PLOTS_DIR/raw_step_resp.tex','showInfo',false);
+end
+
+clear step6 step3 step2 G6 G3 G2 leg_G6 leg_G3 leg_G2 DMCstep;
+load PID_9_45_0_02;
+
+figure(3)
+stairs(Y,'b');
+hold on;
+stairs(Yzad,'r');
+xlabel('k');
+ylabel('Y');
+legend('Y(k)','Yzad(k)');
+title('Regulator PID');
+grid on;
+
+if save_==1
+    print('PLOTS_DIR/PID_9_45_0_02_Y','-dpng','-r500');
+    matlab2tikz('PLOTS_dir/PID_9_45_0_02_Y.tex','showInfo',false);
+end
+
+figure(4)
+stairs(U,'b');
+xlabel('k');
+ylabel('U');
+legend('U(k)');
+title('Regulator PID');
+grid on;
+
+if save_==1
+    print('PLOTS_DIR/PID_9_45_0_02_U','-dpng','-r500');
+    matlab2tikz('PLOTS_dir/PID_9_45_0_02_U.tex','showInfo',false);
+end
+
+clear Y U Yzad;
+
+figure(5)
+load DMC_400_200_1_0;
+stairs(Y,'b');
+hold on;
+stairs(Yzad,'r');
+xlabel('k');
+ylabel('Y');
+title('DMC');
+legend('Y(k)','Yzad(k)');
+grid on;
+
+if save_==1
+    print('PLOTS_DIR/DMC_400_200_1_0_Y,'-dpng','-r500');
+    matlab2tikz('PLOTS_dir/DMC_400_200_1_0_Y.tex','showInfo',false);
+end
+
+figure(6)
+stairs(U,'b');
+xlabel('k');
+ylabel('U');
+title('DMC');
+
+
