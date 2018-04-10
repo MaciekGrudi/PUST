@@ -11,7 +11,7 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
 
     simTime=200;
     %sprawdzenie poprawnosci punktu pracy
-    Y=symulacja_obiektu_UppYppZpp(0,0,0,simTime);
+    Y=symulacja_obiektu_UppYppZpp(0,0,0,simTime,1);
 
     %odpowiedzi skokowe dla roznych skokow sterowania i zaklocenia
     Y1=skok_sterowania(0.5,simTime);
