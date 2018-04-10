@@ -1,5 +1,11 @@
 function Y=symulacja_obiektu_UppYppZpp(Upp,Ypp,Zpp,time,t)
-    k=6;
+    if t ==1
+        k=6;
+    end
+    
+    if t==2
+        k=3;
+    end
     U=zeros(time,1);
     Y=zeros(time,1);
     Z=zeros(time,1);
