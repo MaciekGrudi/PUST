@@ -63,20 +63,20 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
     xlabel('k');
     ylabel('Y(k)');
     grid on;
-    
+
     %charakterystyka statyczna y(u,z)
-    simTime=simTime-15;
-    Y=[Y1(simTime);Y2(simTime);Y3(simTime);Y4(simTime);Y5(simTime);Y6(simTime);Y7(simTime);Y8(simTime);Y9(simTime);Y10(simTime);Y11(simTime);Y12(simTime)];
-    U=[0.5;0.9;1.5;1.9;2.3;2.9;0;0;0;0;0;0];
+%     Y=[Y1(size(Y1));Y2(size(Y2));Y3(size(Y3));Y4(size(Y4));Y5(size(Y5));Y6(size(Y6));Y7(size(Y7));Y8(size(Y8));Y9(size(Y9));Y10(size(Y10));Y11(size(Y11));Y12(size(Y12))];
+Y=Y1(size(y1    
+U=[0.5;0.9;1.5;1.9;2.3;2.9;0;0;0;0;0;0];
     Z=[0;0;0;0;0;0;0.4;0.8;1.4;1.7;2.1;2.6];
 
 
-    figure(3);
-    stem3(U,Z,Y);
-    xlabel('U');
-    ylabel('Z');
-    zlabel('Y');
-    title('Charakterystyka statyczna');
+%     figure(3);
+%     stem3(U,Z,Y);
+%     xlabel('U');
+%     ylabel('Z');
+%     zlabel('Y');
+%     title('Charakterystyka statyczna');
 
     %odpowiedz skokowa dla DMC
     figure(4);
