@@ -1,19 +1,22 @@
-clear all;
+clear;
 
 limits = 0;
 distortion = 0;
 
-load step;s=sz;
-
+load step;
+s = s1;
 
 %t = 12;
 t = 6;
 T = 0.5;
-D = length(s); N = 100; Nu = 100; lambda = 10;
+D = length(s); N = 200; Nu = 200; lambda = 0.5;
 %D = length(s); N = 200; Nu = 15; lambda = 1;
 Dz = length(sz);
 Upp = 0; Ypp = 0; Zpp = 0;
 Umin = 0.1; Umax = 1.5; dUmax = 0.2;
+
+
+D = length(s);
 
 s(D+1:1000) = s(D);
 sz(Dz+1:1000) = sz(Dz);
@@ -21,9 +24,10 @@ sz(Dz+1:1000) = sz(Dz);
 umin = Umin - Upp; umax = Umax - Upp; dumax = dUmax;
 
 Yzad(1:20)=Ypp; Yzad(21:400)=Ypp+1;
-%Z(1:60) = Zpp; Z(61:400) = Zpp + 0.4; %zad 5
-%Z(1:60) = Zpp; Z(61:400) = Zpp + 0.2*sin(0:0.2:27.8); %zad 6
 Z(1:400) = Zpp;
+%Z(1:60) = Zpp; Z(61:400) = Zpp + 0.4; %zad 5
+%Z(1:99) = Zpp; Z(100:400) = Zpp + 0.2*sin(0:0.2:(300*0.2)); %zad 6
+
 
 yzad = Yzad - Ypp;
 z = Z - Zpp;
@@ -46,7 +50,7 @@ for i = 1:Dz
     MPz(:,i) = sz((i+1):(i+N))-sz(i);
 end;
 
-K = inv(M'*M + lambda*eye(Nu))*M';
+K = (M'*M + lambda*eye(Nu))\M';
 K1 = K(1,:);
 Ku = K1 * MP;
 Ke = sum(K1);
@@ -70,36 +74,19 @@ for k=t:kk
     
     e = yzad(k) - y(k);
     
-%     vec_Y0 = y(k)*ones(N,1)+MP*DUP;
-%     vec_Yzad = yzad(k)*ones(N,1);
-%     du = K*(vec_Yzad-vec_Y0);
+%   vec_Y0 = y(k)*ones(N,1)+MP*DUP;
+%   vec_Yzad = yzad(k)*ones(N,1);
+%   du = K*(vec_Yzad-vec_Y0);
     
     du = Ke*e - Ku*DUP;
     
     if distortion ~= 0
         du = Ke*e - K1*MP*DUP - K1*MPz*DZP;
     end;
-    if limits ~= 0
-        if du(1) < -dumax
-            du(1) = -dumax;
-        end;
-        if du(1) > dumax
-            du(1) = dumax;
-        end;
-        u(k) = du(1) + u(k-1);
-        if u(k) < umin
-            u(k) = umin;
-        end;
-        if u(k) > umax
-            u(k) = umax;
-        end;
-        
-    else
-        %u(k) = du+u(k-1);
-        u(k) = du(1)+u(k-1);
-    end;
     
+    u(k) = du(1)+u(k-1);
     U(k) = u(k)+Upp;
+    %U(k)=1;
     
 end;
 
@@ -107,15 +94,25 @@ e = (yzad-y)*(yzad-y)';
 E = (Yzad-Y)*(Yzad-Y)';
 
 figure;
-subplot(2,1,1);
+subplot(3,1,1);
 stairs(U,'b');
 ylabel('U');
 xlabel('k');
-title(sprintf('DMC, E=%e',E));
+title(sprintf('D=%d,N=%d, N_u=%d, lambda =%f, E=%e',D,N,Nu,lambda,E));
 
-subplot(2,1,2);
+subplot(3,1,2);
 stairs(Yzad,'--r');
 hold on;
 stairs(Y, 'b')
 ylabel('Y, Yzad');
 xlabel('k');
+
+subplot(3,1,3);
+stairs(Z,'b');
+hold on;
+ylabel('Z');
+xlabel('k');
+
+clear i k kk t
+
+hold off;
