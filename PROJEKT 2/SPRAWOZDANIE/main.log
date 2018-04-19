@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.3.23)  19 APR 2018 22:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.3.23)  19 APR 2018 22:11
 entering extended mode
 **./main.tex
 (main.tex
@@ -1706,10 +1706,9 @@ LaTeX Font Info:    Try loading font information for T1+cmtt on input line 4.
 (d:\programy\miktex\tex\latex\base\t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-Overfull \hbox (137.65155pt too wide) in paragraph at lines 4--5
-[]\T1/cmr/m/n/10.95 Podstawow¡ funk-cj¡ u»y-wa-n¡ do ba-da-nia od-po-wie-dzi sk
-o-ko-wych jest [][]\T1/cmtt/m/n/10.95 Y=symulacja_obiektu_UppYppZpp(Upp,Zpp,tim
-e,t)
+Overfull \hbox (4.81645pt too wide) in paragraph at lines 4--5
+[][]\T1/cmtt/m/n/10.95 Y=symulacja_obiektu_UppYppZpp(Upp,Zpp,time,t) []\T1/cmr/
+m/n/10.95 przyj-mu-j¡-ca ja-ko pa-ra-me-try wej-±cio-we war-
  []
 
 (PLOTS/ppracy.tex)) (odp_skok_proj.tex [4
@@ -1831,7 +1830,7 @@ pk\ljfour\jknappen\ec\dpi600\ecbx1728.pk><d:/programy/miktex/fonts/type1/public
 pl/plmib10.pfb><d:/programy/miktex/fonts/type1/public/pl/plr10.pfb><d:/programy
 /miktex/fonts/type1/public/pl/plr8.pfb><d:/programy/miktex/fonts/type1/public/p
 l/plsy10.pfb><d:/programy/miktex/fonts/type1/public/pl/plsy8.pfb>
-Output written on main.pdf (27 pages, 359174 bytes).
+Output written on main.pdf (27 pages, 359157 bytes).
 PDF statistics:
  639 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
