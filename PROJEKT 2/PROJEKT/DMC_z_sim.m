@@ -69,10 +69,6 @@ for k=t:kk
     
     e = yzad(k) - y(k);
     
-%   vec_Y0 = y(k)*ones(N,1)+MP*DUP;
-%   vec_Yzad = yzad(k)*ones(N,1);
-%   du = K*(vec_Yzad-vec_Y0);
-    
     du = Ke*e - Ku*DUP;
     
     if distortion ~= 0
