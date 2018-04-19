@@ -18,6 +18,10 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
     xlabel('k');
     ylabel('Y(k)');
     hold on;
+    if save==1
+        print('PLOTS/ppracy', '-dpng', '-r500')
+        matlab2tikz('PLOTS/ppracy.tex','showInfo',false);
+    end
     
     %odpowiedzi skokowe dla roznych skokow sterowania i zaklocenia
     Y1=skok_sterowania(0.5,simTime);
@@ -53,7 +57,11 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
     xlabel('k');
     ylabel('Y(k)');
     grid on;
-
+    if save==1
+        print('PLOTS/osu', '-dpng', '-r500')
+        matlab2tikz('PLOTS/osu.tex','showInfo',false);
+    end
+    
     figure(3);
     stairs(Ypp);
     hold on;
@@ -69,6 +77,11 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
     xlabel('k');
     ylabel('Y(k)');
     grid on;
+
+    if save==1
+        print('PLOTS/osz', '-dpng', '-r500')
+        matlab2tikz('PLOTS/osz.tex','showInfo',false);
+    end
     
     %charakterystyka statyczna y(u,z)
     simTime=simTime-15;
@@ -84,13 +97,44 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
     zlabel('Y');
     title('Charakterystyka statyczna');
 
-    %odpowiedz skokowa dla DMC
+    if save==1
+        print('PLOTS/statyczna_proj', '-dpng', '-r500')
+        matlab2tikz('PLOTS/statyczna_proj.tex','showInfo',false);
+    end
+    
     figure(5);
+    stem(U(1:6),Y(1:6));
+    xlabel('U');
+    ylabel('Y');
+    title('Charakterystyka statyczna - Y(U)');
+    
+    if save==1
+        print('PLOTS/statyczna_proj_yu', '-dpng', '-r500')
+        matlab2tikz('PLOTS/statyczna_proj_yu.tex','showInfo',false);
+    end
+        
+    figure(6);
+    stem(Z(7:12),Y(7:12));
+    xlabel('Z');
+    ylabel('Y');
+    title('Charakterystyka statyczna - Y(Z)');
+    
+    if save==1
+        print('PLOTS/statyczna_proj_yz', '-dpng', '-r500')
+        matlab2tikz('PLOTS/statyczna_proj_yz.tex','showInfo',false);
+    end
+        
+    %odpowiedz skokowa dla DMC
+    figure(7);
     stairs(odpDMCU);
     hold on;
     stairs(odpDMCZ);
     title('Odpowiedzi skokowe dla DMC');
     legend('Skok jednostkowy sterowania', 'Skok jednostkowy zaklocenia');
 
+    if save==1
+        print('PLOTS/skokDMC', '-dpng', '-r500')
+        matlab2tikz('PLOTS/skokDMC.tex','showInfo',false);
+    end
     clear Y Y1 Y2 Y3 Y4 Y5 Y6 Y7 Y8 Y9 Y10 Y11 Y12 simTime;
 end

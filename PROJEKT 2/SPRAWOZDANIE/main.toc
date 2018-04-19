@@ -2,20 +2,24 @@
 \contentsline {chapter}{\numberline {1\relax .\kern .5em }Wst\IeC {\k e}p}{3}
 \contentsline {chapter}{\numberline {2\relax .\kern .5em }Sprawdzenie poprawno\IeC {\'s}ci punktu pracy}{4}
 \contentsline {chapter}{\numberline {3\relax .\kern .5em }Przebiegi odpowiedzi skokowych}{5}
-\contentsline {section}{\numberline {3.1\relax .\kern .5em }Tor wej\IeC {\'s}cie-wyj\IeC {\'s}cie}{5}
-\contentsline {section}{\numberline {3.2\relax .\kern .5em }Tor wej\IeC {\'s}cie-zak\IeC {\l }\IeC {\'o}cenie}{5}
-\contentsline {section}{\numberline {3.3\relax .\kern .5em }Charakterystyka statyczna procesu}{5}
-\contentsline {section}{\numberline {3.4\relax .\kern .5em }Okre\IeC {\'s}lenie wzmocnienia statycznego}{5}
-\contentsline {chapter}{\numberline {4\relax .\kern .5em }Przebiegi odpowiedzi skokowych u\IeC {\.z}ytecznych w algorytmie DMC}{6}
-\contentsline {chapter}{\numberline {5\relax .\kern .5em }Implementacja regulatora DMC}{7}
-\contentsline {chapter}{\numberline {6\relax .\kern .5em }Dob\IeC {\'o}r parametr\IeC {\'o}w regulacji}{8}
-\contentsline {chapter}{\numberline {7\relax .\kern .5em }Przebiegi symulacji}{9}
-\contentsline {section}{\numberline {7.1\relax .\kern .5em }Dla skokowej zmiany zak\IeC {\l }\IeC {\'o}cenia (bez i z jej uwzgl\IeC {\k e}dnieniem)}{9}
-\contentsline {section}{\numberline {7.2\relax .\kern .5em }Dla zak\IeC {\l }\IeC {\'o}cenia zmiennego sinusoidalnie (bez i z jego uwzgl\IeC {\k e}dnieniem)}{9}
-\contentsline {part}{\numberline {II\relax .\kern .5em }Laboratorium}{10}
-\contentsline {chapter}{\numberline {8\relax .\kern .5em }Wst\IeC {\k e}p}{11}
-\contentsline {chapter}{\numberline {9\relax .\kern .5em }Ustalenie warto\IeC {\'s}ci wyj\IeC {\'s}cia w punkcie pracy}{12}
-\contentsline {chapter}{\numberline {10\relax .\kern .5em }Zebranie odpowiedzi skokowych dla toru wej\IeC {\'s}cia}{13}
-\contentsline {chapter}{\numberline {11\relax .\kern .5em }Normalizacja i aproksymacja wybranych odpowiedzi skokowych}{14}
-\contentsline {chapter}{\numberline {12\relax .\kern .5em }Implementacja regulatora DMC}{15}
-\contentsline {chapter}{\numberline {13\relax .\kern .5em }Przebiegi procesu}{16}
+\contentsline {section}{\numberline {3.1\relax .\kern .5em }Tory wej\IeC {\'s}cie-wyj\IeC {\'s}cie oraz wej\IeC {\'s}cie-zak\IeC {\l }\IeC {\'o}cenie}{5}
+\contentsline {section}{\numberline {3.2\relax .\kern .5em }Charakterystyka statyczna procesu}{7}
+\contentsline {section}{\numberline {3.3\relax .\kern .5em }Okre\IeC {\'s}lenie wzmocnienia statycznego}{7}
+\contentsline {chapter}{\numberline {4\relax .\kern .5em }Przebiegi odpowiedzi skokowych u\IeC {\.z}ytecznych w algorytmie DMC}{9}
+\contentsline {chapter}{\numberline {5\relax .\kern .5em }Implementacja algorytmu DMC}{10}
+\contentsline {chapter}{\numberline {6\relax .\kern .5em }Dob\IeC {\'o}r parametr\IeC {\'o}w regulacji}{12}
+\contentsline {chapter}{\numberline {7\relax .\kern .5em }Przebiegi symulacji z zak\IeC {\l }\IeC {\'o}ceniem}{15}
+\contentsline {section}{\numberline {7.1\relax .\kern .5em }Dla skokowej zmiany zak\IeC {\l }\IeC {\'o}cenia}{15}
+\contentsline {subsection}{\numberline {7.1.1\relax .\kern .5em }Bez uwzgl\IeC {\k e}dniania zak\IeC {\l }\IeC {\'o}ce\IeC {\'n}}{15}
+\contentsline {subsection}{\numberline {7.1.2\relax .\kern .5em }Z uwzgl\IeC {\k e}dnieniem zak\IeC {\l }\IeC {\'o}ce\IeC {\'n}}{15}
+\contentsline {section}{\numberline {7.2\relax .\kern .5em }Dla zak\IeC {\l }\IeC {\'o}cenia zmiennego sinusoidalnie}{17}
+\contentsline {subsection}{\numberline {7.2.1\relax .\kern .5em }Bez uwzgl\IeC {\k e}dniania zak\IeC {\l }\IeC {\'o}ce\IeC {\'n}}{17}
+\contentsline {subsection}{\numberline {7.2.2\relax .\kern .5em }Z uwzgl\IeC {\k e}dnieniem zak\IeC {\l }\IeC {\'o}ce\IeC {\'n}}{17}
+\contentsline {section}{\numberline {7.3\relax .\kern .5em }Wnioski}{17}
+\contentsline {part}{\numberline {II\relax .\kern .5em }Laboratorium}{20}
+\contentsline {chapter}{\numberline {8\relax .\kern .5em }Wst\IeC {\k e}p}{21}
+\contentsline {chapter}{\numberline {9\relax .\kern .5em }Ustalenie warto\IeC {\'s}ci wyj\IeC {\'s}cia w punkcie pracy}{22}
+\contentsline {chapter}{\numberline {10\relax .\kern .5em }Zebranie odpowiedzi skokowych dla toru wej\IeC {\'s}cia}{23}
+\contentsline {chapter}{\numberline {11\relax .\kern .5em }Normalizacja i aproksymacja wybranych odpowiedzi skokowych}{24}
+\contentsline {chapter}{\numberline {12\relax .\kern .5em }Implementacja regulatora DMC}{25}
+\contentsline {chapter}{\numberline {13\relax .\kern .5em }Przebiegi procesu}{26}

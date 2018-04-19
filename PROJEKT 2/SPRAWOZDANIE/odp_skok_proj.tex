@@ -1,9 +1,98 @@
+\lstset{
+	backgroundcolor=\color{szary},
+	frame=single,
+	breaklines=true,
+}
+
 \chapter{Przebiegi odpowiedzi skokowych}
 
-\section{Tor wejście-wyjście}
+Wspomniana wcześniej funkcja \verb+Y=symulacja_obiektu_UppYppZpp(Upp,Zpp,time,t)+ ma za zadanie symulować zachowanie obiektu w przypadku skoku sterowania (argument \verb+Upp+) lub zakłócenia (argument \verb+Zpp+) od zera do podanej wartości. Zazwyczaj w obliczeniach używa się skoku sterowania następującego w dyskretnej chwili 0. Program MATLAB nie umożliwia jednak indeksowania od zera ani liczb ujemnych, w związku z czym funkcja pobudza obiekt skokiem dopiero w chwili $k=16$, a po wykonaniu całej symulacji obcina wektor wyjścia $Y$ tak, aby wyniki symulacji zgadzały się z powyższym założeniem.
 
-\section{Tor wejście-zakłócenie}
+Czas symulacji, tj. ilość dyskretnych chwil, w których liczona jest odpowiedź skokowa ustalone zostało na \verb+time=200+. Taka ilość próbek pozwala zaobserwować ustalenie się procesu (pod koniec symulacji wartości wyjścia są niemal identyczne).
+
+Implementację funkcji przedstawia poniższy listing:
+
+\begin{lstlisting}[style=customc,frame=single]
+function Y=symulacja_obiektu_UppYppZpp(Upp,Zpp,time,t)
+
+	%alokacja pamieci
+	U=zeros(time+16,1);
+	Y=zeros(time+16,1);
+	Z=zeros(time+16,1);
+	
+	for k=16:time+16
+	U(k)=Upp;
+	Z(k)=Zpp;
+	
+	%skok wejscia lub zaklocenia w zaleznosci od parametru t
+	if (t == 1)
+		Y(k)=symulacja_obiektu7y(U(k-4),U(k-5),Z(k-1),...
+		Z(k-2),Y(k-1),Y(k-2));
+	end
+	if (t == 2)
+		Y(k)=symulacja_obiektu7y(0,0,Z(k-1),Z(k-2),...
+		Y(k-1),Y(k-2));
+		end
+	end
+	
+	%obciecie pierwszych elementow wektora
+	Y=Y(16:time+16,1);
+end
+\end{lstlisting}
+
+\section{Tory wejście-wyjście oraz wejście-zakłócenie}
+Kolejnym krokiem związanym z badaniem symulowanego obiektu jest zbadanie jego odpowiedzi skokowych na różne wartości skoków sterowania i zakłócenia. Zaczynając od punktu pracy i używając funkcji \verb+Y=symulacja_obiektu_UppYppZpp(Upp,Zpp,time,t)+ dokonano tej procedury, a wyniki symulacji przedstawiono na Rys.~\ref{osu} i \ref{osz}. 
+
+Dokładne działanie obiektu jest nieznane, można jednak stwierdzić, że symulacja została przeprowadzona prawidłowo ze względu na widoczne w obu przypadkach opóźnienie.
+
+Na podstawie tych wykresów można też uznać, że właściwości dynamiczne obiektu są liniowe, tzn. wartości odpowiedzi skokowych w stanie ustalonym są wprost proporcjonalne do skoków sterowania/zakłócenia, które je wywołały.
+
+\begin{figure}
+	\centering
+	\caption{Charakterystyka dla skoku wartości sterowania}
+	\input{./PLOTS/osu.tex}
+	\label{osu}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\caption{Charakterystyka dla skoku wartości zakłócenia}
+	\input{./PLOTS/osz.tex}
+	\label{osz}
+\end{figure}
 
 \section{Charakterystyka statyczna procesu}
+Charakterystyka statyczna obiektu to zależność między sygnałem wyjściowym a sygnałem wejściowym (w tym przypadku sygnałem sterującym lub zakłóceniem) w stanie ustalonym. Do jej wyznaczenia użyte zostały odpowiedzi skokowe wyliczone w punkcie poprzednim. Ponieważ w każdym z przypadków w dyskretnej chwili $k=200$ obiekt jest już w stanie ustalonym, najwygodniejszym sposobem było użycie ostatniej wartości w wektorze odpowiedzi dla każdego skoku. Na tej podstawie sporządzono wykres zależności $y(u,z)$ przedstawiony na Rys.~\ref{sp}. Dla zwiększenia przejrzystości i ułatwienia analizy przedstawiono również widok z dwóch perspektyw na ten wykres - $Y(U)$ i $Y(Z)$ - rysunki odpowiednio \ref{spu} i \ref{spz}.
+
+\begin{figure}
+	\centering
+	\caption{Charakterystyka statyczna}
+	\input{./PLOTS/statyczna_proj.tex}
+	\label{sp}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\caption{Charakterystyka statyczna - $Y(U)$}
+	\input{./PLOTS/statyczna_proj_yu.tex}
+	\label{spu}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\caption{Charakterystyka statyczna - $Y(Z)$}
+	\input{./PLOTS/statyczna_proj_yz.tex}
+	\label{spz}
+\end{figure}
+
+Na pierwszy rzut oka widać, że charakterystyki są liniowe, tzn. wartości $Y(U)$ i $Y(Z)$ ustalają się w przybliżeniu na linii prostej, za takie też będą traktowane w dalszych rozważaniach.
 
 \section{Określenie wzmocnienia statycznego}
+Na podstawie tej charakterystyki można obliczyć wzmocnienia statyczne obu torów procesu. Definiuje się je jako
+\begin{equation}
+K_U=\frac{\Delta Y}{\Delta U}, K_Z=\frac{\Delta Y}{\Delta Z}
+\end{equation}
+Pary parametrów $\Delta Y$ i $\Delta U$ oraz $\Delta Y$ i $\Delta Z$ są stałe dla dowolnie wybranych punktów na wykresach $Y(U)$ i $Y(Z)$, ponieważ charakterystyka jest liniowa. Należy więc wybrać dowolne punkty $(U_i, Y_i)$ i $(U_j, Y_j)$ oraz $(Z_i, Y_i)$ i $(Z_j, Y_j)$ i na ich podstawie obliczyć wzmocnienia statyczne $K_U$ i $K_Z$. Wyniki:
+\begin{equation}
+K_U=\num{2.49}, K_Z=\num{1.89}
+\end{equation}

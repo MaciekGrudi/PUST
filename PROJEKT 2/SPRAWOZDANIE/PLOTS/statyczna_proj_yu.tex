@@ -1,0 +1,40 @@
+% This file was created by matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=4.521in,
+height=3.566in,
+at={(0.758in,0.481in)},
+scale only axis,
+xmin=0.5,
+xmax=3,
+xlabel style={font=\color{white!15!black}},
+xlabel={U},
+ymin=0,
+ymax=7,
+ylabel style={font=\color{white!15!black}},
+ylabel={Y},
+axis background/.style={fill=white},
+title style={font=\bfseries},
+title={ },
+legend style={legend cell align=left, align=left, draw=white!15!black}
+]
+\addplot[ycomb, color=mycolor1, mark=o, mark options={solid, mycolor1}] table[row sep=crcr] {%
+0.5	1.2446137691799\\
+0.9	2.24030478452387\\
+1.5	3.73384130753969\\
+1.9	4.7295323228835\\
+2.3	5.72522333822748\\
+2.9	6.72091435357146\\
+};
+\addplot[forget plot, color=white!15!black] table[row sep=crcr] {%
+0.5	0\\
+3	0\\
+};
+
+
+\end{axis}
+\end{tikzpicture}%
