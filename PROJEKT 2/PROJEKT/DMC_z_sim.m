@@ -1,14 +1,14 @@
 %clear;
 
 limits = 0;
-distortion = 1;
+distortion = 0;
 
 load step;
 
 %t = 12;
 t = 6;
 T = 0.5;
-D = length(s); N = 201; Nu = 4; lambda = 2;
+D = length(s); N = 201; Nu = 4; lambda = 1;
 Dz = length(sz);
 Upp = 0; Ypp = 0; Zpp = 0;
 Umin = 0.1; Umax = 1.5; dUmax = 0.2;
@@ -19,9 +19,9 @@ sz(Dz+1:1000) = sz(Dz);
 umin = Umin - Upp; umax = Umax - Upp; dumax = dUmax;
 
 Yzad(1:20)=Ypp; Yzad(21:400)=Ypp+1;
-Z(1:400) = Zpp;
+%Z(1:400) = Zpp;
 %Z(1:99) = Zpp; Z(100:400) = Zpp + 1; %zad 5
-%Z(1:99) = Zpp; Z(100:400) = Zpp + 0.2*sin(0:0.2:(300*0.2)); %zad 6
+Z(1:99) = Zpp; Z(100:400) = Zpp + 0.2*sin(0:0.2:(300*0.2)); %zad 6
 
 
 yzad = Yzad - Ypp;

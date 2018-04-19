@@ -1,6 +1,76 @@
-\chapter{Przebiegi symulacji}
+\chapter{Przebiegi symulacji z zakłóceniem}
 
-\section{Dla skokowej zmiany zakłócenia (bez i z jej uwzględnieniem)}
+Dla dobranych parametrów algorytmu DMC wykonano symulacje dla zmiennego toru zakłócenia mierzalnego. W wyniku symulacji przeprowadzonych podczas doboru parametrów ustalono, że w chwili $k$~=~100 proces ma osiągniętą wartość wyjściową $y(k)$ równą wartości zadanej. Dlatego wszelkie zmiany wartości zakłócenia nastepowały w tej własnie chwili. Za wartość parametru $D_z$ przyjęto $D_z$~=~\num{201}, będące długością uzyskanej odpowiedzi skokowej toru zakłócenie-wyjście.
 
 
-\section{Dla zakłócenia zmiennego sinusoidalnie (bez i z jego uwzględnieniem)}
+\section{Dla skokowej zmiany zakłócenia}
+
+Zasymulowano przebiegi procesu dla zmiany wartości zakłócenia mierzalnego z wartości 0 na wartość 1 w chwili odpowiadającej 100-nej próbce symulacji. Symulacje uruchomiono w w dwóch trybach pracy algorytmu DMC.
+
+\subsection{Bez uwzględniania zakłóceń}
+
+W trybie pracy algorytmu bez uwzględniania zakłóceń otrzymano wskaźnik jakości $e$~=~\num{12.8721}. Przebieg przedstawiono na rysunku \ref{5przebieg}
+
+\begin{figure}
+	
+	\centering
+	\caption{ Przebieg symulacji algorytmu DMC dla skoku zakłócenia bez uwzględniania zakłóceń }
+	\input{tikz/graph5.tex}
+	\label{5przebieg}
+\end{figure}
+
+\subsection{Z uwzględnieniem zakłóceń}
+
+W trybie pracy algorytmu z uwzględnianiem zakłóceń otrzymano wskaźnik jakości $e$~=~\num{7.1838}. Przebieg przedstawiono na rysunku \ref{5zprzebieg}
+
+\begin{figure}
+	
+	\centering
+	\caption{ Przebieg symulacji algorytmu DMC dla skoku zakłócenia z uwzględnianiem zakłóceń }
+	\input{tikz/graph5z.tex}
+	\label{5zprzebieg}
+\end{figure}
+
+\section{Dla zakłócenia zmiennego sinusoidalnie}
+
+Zasymulowano przebiegi procesu dla zmiany wartości zakłócenia mierzalnego w chwili odpowiadającej 100-nej próbce symulacji na sygnał sinusoidalny o amplitudzie \num{0.2}. Symulacje uruchomiono w w dwóch trybach pracy algorytmu DMC.
+
+
+
+\subsection{Bez uwzględniania zakłóceń}
+
+W trybie pracy algorytmu bez uwzględniania zakłóceń otrzymano wskaźnik jakości $e$~=~\num{12.3087}. Przebieg przedstawiono na rysunku \ref{6przebieg}
+
+\begin{figure}
+	
+	\centering
+	\caption{ Przebieg symulacji algorytmu DMC dla zakłócenia zmiennego sinusoidalnie bez uwzględniania zakłóceń }
+	\input{tikz/graph6z.tex}
+	\label{6przebieg}
+\end{figure}
+
+\subsection{Z uwzględnieniem zakłóceń}
+
+W trybie pracy algorytmu z uwzględnianiem zakłóceń otrzymano wskaźnik jakości $e$~=~\num{7.8234}. Przebieg przedstawiono na rysunku \ref{6zprzebieg}
+
+\begin{figure}
+	
+	\centering
+	\caption{ Przebieg symulacji algorytmu DMC dla zakłócenia zmiennego sinusoidalnie z uwzględnianiem zakłóceń }
+	\input{tikz/graph6z.tex}
+	\label{6zprzebieg}
+\end{figure}
+
+Ponieważ róznica pomiędzy rysunkiem \ref{6przebieg}, a rysunkiem \ref{5zprzebieg} nie jest zbyt wyraźna dla zadanej skali wykonano zestawienie wyjścia dla obydwu przebiegów (Rys. \ref{singraph})
+
+\begin{figure}
+	
+	\centering
+	\caption{ Przebieg symulacji algorytmu DMC dla zakłócenia zmiennego sinusoidalnie z uwzględnianiem zakłóceń }
+	\input{tikz/singraph.tex}
+	\label{singraph}
+\end{figure}
+
+\section{Wnioski}
+
+Zgodnie z oczekiwaniami uwzględnianie zakłócenia mierzalnego w sterowaniu z wykorzystnaiem algorytmu DMC poprawia rezultat zmiejszając błąd oraz przyspieszając stabilizację procesu po wystąpieniu zakłócenia. Można zaobserwować że uwzględnienie zakłocenia działa lepiej w przypadku gdy zakłócenie ma charakter stały niż sinusoidalnie zmienny
