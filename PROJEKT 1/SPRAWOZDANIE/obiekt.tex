@@ -1,17 +1,39 @@
 \chapter{Sterowanie rzeczywistym obiektem - część laboratoryjna}
-Zadanie laboratoryjne polegało na zebraniu danych z rzeczywistego obiektu oraz implementacji na nim algorytmów regulacji PID i DMC. Badanym obiektem było stanowisko grzewczo-chłodzące. Obiekt ten charakteryzuje się opóźnieniem na wejściu oraz wolną dynamiką. Taka charakterystyka obiektu ma znaczący wpływ na jakość danych regulatorów.\\
+
+Zadanie laboratoryjne polegało na zebraniu danych z rzeczywistego obiektu oraz implementacji na nim algorytmów regulacji PID i DMC. Badanym obiektem było stanowisko grzewczo-chłodzące. Obiekt ten charakteryzuje się opóźnieniem na wejściu oraz wolną dynamiką. Taka charakterystyka obiektu ma znaczący wpływ na jakość danych regulatorów.
+
 Do zadania sterowania, jako wejście posłużyła moc grzałki sterowana w granicach 0-100\% (G1), wyjściem była temperatura mierzona przy grzałce (T1). Dodatkowo zostało wprowadzone stałe zakłócenie w postaci wentylatora (W1) któego moc była ustawiona na 50\% (traktowane jako cecha otoczenia).
+
 \section{Odpowiedzi skokowe}
-Pierwszą częścią zadania było pobranie odpowiedzi skokowych z obiektu zaczynając z ustalonego punktu pracy. Wybranym przez nas puktem pracy było $U_\mathrm{pp}=0$. Dla takiej wartości, wartość wyjścia w punkcie pracy wynosiła około $Y_\mathrm{pp}=24$. Wykonano 3 eksperymenty dla różnych skoków sterowania. Ich efekty przedstawione są poniżej:
+Pierwszą częścią zadania było pobranie odpowiedzi skokowych z obiektu zaczynając z ustalonego punktu pracy. Wybranym przez nas puktem pracy było $U_\mathrm{pp}=0$. Dla takiej wartości, wartość wyjścia w punkcie pracy wynosiła około $Y_\mathrm{pp}=24$. Wykonano 3 eksperymenty dla różnych skoków sterowania. Ich efekty przedstawione są na Rys.~\ref{w1}
+
 \begin{figure}
+
+\centering
+\caption{ }
 \input{./PLOTS/raw_step_resp.tex}
+\label{w1}
 \end{figure}
-Doświadczenie dla $U=30$ zostało przeprowadzone na dłuższej próbie czasowej ze względu na dłuższy czas ustalenia się wyjścia obiektu dla zadanego sterowania. Już na pierwszy rzut oka można stwierdzić, że obiekt ten jest liniowy co potwierdza tylko jego charakterystyka statyczna. Tak zebrane odpowiedzi skokowe posłużyły następnie do wyznaczenie dopowiedzi skokowej dla skoku jendostkowego, która następnie posłużyła do implementacji algorytmu DMC.
+
+Doświadczenie dla $U=30$ zostało przeprowadzone na dłuższej próbie czasowej ze względu na dłuższy czas ustalenia się wyjścia obiektu dla zadanego sterowania. Już na pierwszy rzut oka można stwierdzić, że obiekt ten jest liniowy co potwierdza tylko jego charakterystyka statyczna przedstawiona na Rys.~{w2}. Tak zebrane odpowiedzi skokowe posłużyły następnie do wyznaczenia dopowiedzi skokowej dla skoku jendostkowego (przedstawiona na Rys.~{w3}), która następnie posłużyła do implementacji algorytmu DMC.
+
 \begin{figure}
+
+\centering
+\caption{}
 \input{./PLOTS/static_char.tex}
-%\input{./PLOTS/DMC_step_resp.tex}
- \includegraphics{./PLOTS/DMC_step_resp.png}
+\label{w2}
 \end{figure}
+
+\begin{figure}
+
+	\centering
+	\caption{ }
+	\input{./PLOTS/DMC_step_resp.tex}
+		\label{w3}
+\end{figure}
+
+
 \FloatBarrier
 \section{Programy do symulacji algorytmów}
 Lsitingi programów do symulacji przedstawiają się następująco:\\\\
@@ -152,22 +174,45 @@ end
 \end{lstlisting}
 
 \section{Regulator PID}
-Poniższy wykres przedstawia działanie zaimplementowanego algorytmu PID na obikecie. Nastawy zostały wybrane dla niego metodą inżynierską i są następujące: $K=9$, $T_\mathrm{i}=45$, $T_\mathrm{d}=0.02$. Wynik eksperymentu dla dwóch skoków wartości zadanej są przedstawione na poniższym wykresie:
+Rysunki ~\ref{w4} i ~\ref{w5} przedstawiają działanie zaimplementowanego algorytmu PID na obikecie. Nastawy zostały wybrane dla niego metodą inżynierską i są następujące: $K=9$, $T_\mathrm{i}=45$, $T_\mathrm{d}=0.02$.
+
 \begin{figure}
-\input{./PLOTS/PID_9_45_0_02_Y.tex}
+
+	\centering
+	\caption{ }
+	\input{./PLOTS/PID_9_45_0_02_U.tex}
+		\label{w4}
 \end{figure}
+
 \begin{figure}
-\input{./PLOTS/PID_9_45_0_02_U.tex}
+
+	\centering
+	\caption{ }
+	\input{./PLOTS/PID_9_45_0_02_Y.tex}
+		\label{w5}
 \end{figure}
+
 \FloatBarrier
 Jak widać regulator PID słabo radzi sobie z regulacją obiektu o tak wolnej dynamice. Wynika to z faktu że operuje on tylko na danych pochodzących bezpośrednio z obiektu i nie może w żaden sposób przewidzieć jego zachowania w przyszłości, dla którego mógłby dostosować wartość sterowania. W takim przypadku lepiej radzi sobie algorytm DMC.
+
 \section{Algorytm DMC}
-Poniższy wykres przedstawia przebiegi regultora DMC dla danego obiektu. W obu przypadkach uzyto identycznych horyzontów dynamiki i sterowania wynoszących odpowiednio: $N_\mathrm{D}=400$, $N_\mathrm{U}=200$. Przeprowadzono dwa eksperymenty dla różnych wartości lambda: $0.1$ i $1.0$. Oto ekfekty przprowadzonych doświadczeń:
+Następnie zbadano działanie dwóch regulatorów DMC na tym obiekcie. W obu przypadkach uzyto identycznych horyzontów dynamiki i sterowania wynoszących odpowiednio: $N_\mathrm{D}=400$, $N_\mathrm{U}=200$. Przeprowadzono dwa eksperymenty dla różnych wartości lambda: $0.1$ i $1.0$. Efekty przeprowadzonych doświadczeń ukazane są na Rys.~\ref{w6} i ~\ref{w7}.
+
 \begin{figure}
-	\input{./PLOTS/DMC_Y.tex}
-\end{figure}
-\begin{figure}
+
+	\centering
+	\caption{ }
 	\input{./PLOTS/DMC_U.tex}
+		\label{w6}
 \end{figure}
+
+\begin{figure}
+
+	\centering
+	\caption{ }
+	\input{./PLOTS/DMC_Y.tex}
+		\label{w7}
+\end{figure}
+
 \FloatBarrier
-Jak widać na powyższych wykresach algorytm DMC radzi sobie znacznie lepiej przy sterowaniu obiektem o wolniejszej dynamice, niż algorytm PID. Wynika to z faktu iż DMC posługuje się modelem obiektu w postaci odpowiedzi skokowej, dzięki czemu może on przewidzieć zachowanie się obieku w danej sytuacji i odpowiednio wcześniej reagować, zmieniając wartości sterwoania przez co osaiąga on wartość zadaną w zancznie szybszy i stabliniejszy sposób niż PID.
+Jak widać, algorytm DMC radzi sobie znacznie lepiej przy sterowaniu obiektem o wolniejszej dynamice, niż algorytm PID. Wynika to z faktu iż DMC posługuje się modelem obiektu w postaci odpowiedzi skokowej, dzięki czemu może on przewidzieć zachowanie się obieku w danej sytuacji i odpowiednio wcześniej reagować, zmieniając wartości sterowania, przez co osaiąga on wartość zadaną w znacznie szybszy i stabilniejszy sposób niż PID.

@@ -11,8 +11,14 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
 
     simTime=200;
     %sprawdzenie poprawnosci punktu pracy
-    Y=symulacja_obiektu_UppYppZpp(0,0,0,simTime,1);
-
+    Ypp=symulacja_obiektu_UppYppZpp(Upp,Zpp,simTime,1);
+    figure(1);
+    stairs(Ypp);
+    title('Wartoœæ sygna³u wyjœciowego w punkcie pracy u=z=0');
+    xlabel('k');
+    ylabel('Y(k)');
+    hold on;
+    
     %odpowiedzi skokowe dla roznych skokow sterowania i zaklocenia
     Y1=skok_sterowania(0.5,simTime);
     Y2=skok_sterowania(0.9,simTime);
@@ -31,8 +37,8 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
     [odpDMCU, odpDMCZ] = skokowa_DMC(simTime);
 
     %wykresy
-    figure(1);
-    stairs(Y);
+    figure(2);
+    stairs(Ypp);
     hold on;
 
     stairs(Y1);
@@ -48,8 +54,8 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
     ylabel('Y(k)');
     grid on;
 
-    figure(2);
-    stairs(Y);
+    figure(3);
+    stairs(Ypp);
     hold on;
     stairs(Y7);
     stairs(Y8);
@@ -71,7 +77,7 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
     Z=[0;0;0;0;0;0;0.4;0.8;1.4;1.7;2.1;2.6];
 
 
-    figure(3);
+    figure(4);
     stem3(U,Z,Y);
     xlabel('U');
     ylabel('Z');
@@ -79,7 +85,7 @@ function [odpDMCU, odpDMCZ] = proj2zad13()
     title('Charakterystyka statyczna');
 
     %odpowiedz skokowa dla DMC
-    figure(4);
+    figure(5);
     stairs(odpDMCU);
     hold on;
     stairs(odpDMCZ);
