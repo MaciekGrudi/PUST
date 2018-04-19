@@ -8,7 +8,7 @@ load step;
 %t = 12;
 t = 6;
 T = 0.5;
-D = length(s); N = 201; Nu = 200; lambda = 1;
+D = length(s); N = 201; Nu = 4; lambda = 2;
 Dz = length(sz);
 Upp = 0; Ypp = 0; Zpp = 0;
 Umin = 0.1; Umax = 1.5; dUmax = 0.2;
