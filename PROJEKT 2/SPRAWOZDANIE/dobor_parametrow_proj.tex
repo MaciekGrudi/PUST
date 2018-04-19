@@ -1,1 +1,86 @@
 \chapter{Dobór parametrów regulacji}
+
+W celu dobrania parametrów regulacji algorytmu DMC wykonano serię symulacji, w których przebieg wartości zadanej $Y^{zad}(k)$ miał postać skoku z wartości \num{0} do wartości \num{1} w chwili odpowiadającej 21 próbce w zakresie 400 próbek procesu. Sygnał zakłocenia $Z(k)$ miał wartość \num{0} dla każdej chwili $k$.
+
+Za wartości początkowe parametrów regulatora przyjęto $D=N=201$ , $N_u = 200$ , $\lambda =$ \num{1.0}. Dla kolejnych symulacji modyfikowano wartość parametru $N_u$ obserwując zmianę wskaźnika jakości $e$ oraz przebieg sygnału. Wykonano sześć symulacji dla parametru $N_u$ = 2, 3, 4, 5, 6, 200. Wyniki przebiegów zestawiono ze sobą (Rys. \ref{Nu}), wartość wskaźnika jakości $e$ zebrano w tabeli (Tab. \ref{eNu}).
+
+\begin{table}
+	[b] \caption{Wartość wskaźnika $e$ jakości dla różnych wartości parametru $N_u$}
+	\label{eNu}
+	\centering
+	\sisetup{table-format = 2.4}
+	\begin{small}
+		\begin{tabular}{|c|c|}
+			\hline 
+			Horyzont sterowania $N_u$ & Błąd średniokwadratowy $e$ \\ 
+			\hline 
+			200 & \num{6.0032} \\ 
+			\hline 
+			2 & \num{6.6227} \\ 
+			\hline 
+			3 & \num{5.6199} \\ 
+			\hline 
+			4 & \num{5.4694} \\ 
+			\hline 
+			5 & \num{5.5429} \\ 
+			\hline 
+			6 & \num{5.6802} \\ 
+			\hline 
+		\end{tabular}
+	\end{small}
+\end{table}
+
+Wyraźnie widać, że najlepszy rezultat pod kątem minimalizacji wskaźnika jakości daje $N_u$~=~4. Przebieg procesu dla tej wartości mimo iż nie jest całkowicie gładki, nie wpada w oscylacje i może być uznany za zadawalający.
+
+\begin{figure}
+	
+	\centering
+	\caption{ Przebieg symulacji algorytmu DMC dla różnych wartości  parametru $N_u$ }
+	\input{tikz/NuDMC.tex}
+	\label{Nu}
+\end{figure}
+
+Po wyznaczeniu paramteru $N_u$~=~4 wykonano kolejne symulacji tym razem manipulując wartością parametru $\lambda$. Wyniki przebiegów zestawiono ze sobą (Rys. \ref{lambda}), a wartość wskaźnika jakości $e$ zebrano w tabeli (Tab. \ref{elambda}).
+
+\begin{figure}
+	
+	\centering
+	\caption{ Przebieg symulacji algorytmu DMC dla różnych wartości  parametru $\lambda$ }
+	\input{tikz/lambdaDMC.tex}
+	\label{lambda}
+\end{figure}
+
+\begin{table}
+	[b] \caption{Wartość wskaźnika $e$ jakości dla różnych wartości parametru $\lambda$}
+	\label{elambda}
+	\centering
+	\sisetup{table-format = 2.4}
+	\begin{small}
+		\begin{tabular}{|c|c|}
+			\hline 
+			Współczynnik $\lambda$ & Błąd średniokwadratowy $e$ \\ 
+			\hline 
+			\num{1.00} & \num{5.4694} \\ 
+			\hline 
+			\num{0.50} & \num{5.1086} \\ 
+			\hline 
+			\num{ 0.25} & \num{4.9042} \\ 
+			\hline 
+			\num{2.00} &  \num{6.0860} \\ 
+			\hline 
+		\end{tabular} 
+	\end{small}
+\end{table}
+
+Pomimo iż wartość wskaźnika jakości jest najmniejsza dla $\lambda$~=~\num{0.25} proces już przy wartości $\lambda$~=~\num{0.50} wpada w oscylacje. W związku w tym zdecudowano na zachowanie parametru $\lambda$~=~1.
+
+\begin{figure}
+	
+	\centering
+	\caption{ Przebieg symulacji algorytmu DMC dla dobranych paramterów }
+	\input{tikz/run.tex}
+	\label{run}
+\end{figure}
+
+Dla dobranych parametrów $D$~=~$N$~=~201, $N_u$~=~4, $\lambda$~=~\num{1} wykonano wizualizację przebiegu (Rys. \ref{run} )
+
