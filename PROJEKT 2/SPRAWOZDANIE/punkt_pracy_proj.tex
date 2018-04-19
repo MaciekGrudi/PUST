@@ -1,1 +1,6 @@
 \chapter{Sprawdzenie poprawności punktu pracy}
+Punktem pracy obiektu nazywa się taki punkt na jego charakterystyce, w którym zachodzi jego działanie. W stanie ustalonym nie następują zmiany w wartościach wyjścia i wejścia.
+
+Podstawową funkcją używaną do badania odpowiedzi skokowych jest \verb+Y=symulacja_obiektu_UppYppZpp(Upp,Zpp,time,t)+ przyjmująca jako parametry wejściowe wartości skoku sygnału wejściowego oraz sterowania. Na ich podstawie dokonuje ona symulacji sygnału wyjściowego przy skoku od zera do zadanej wartości. Jej szczegółowy opis zamieszczony jest w dalszej sekcji niniejszego sprawozdania. Można jej użyć także w tym przypadku, ustalając wartość skoku sterowania i zakłócenia na zero.
+
+Aby sprawdzić poprawność podanego punktu pracy tj. $u=y=z=0$ należy przekazać ww. wartości jako parametry wspomnianej funkcji. W rezultacie otrzymano przebieg przedstawiony na rys..... Wynik symulacji zgadza się z podanym w skrypcie wynikiem oczekiwanym, można więc uznać powyższą procedurę za udaną, a punkt pracy za poprawny.

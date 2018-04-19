@@ -4,7 +4,7 @@ Pierwszym etapem naszej pracy była analiza dostarczonego przez prowadzącego pr
 Program do obsługi całego zadania symulacji został zaimplementowany w pliku \texttt{Projekt1.m}. Wykonywane są w nim wszystkie wymagane polecenia niezbędne do wykonania zadania, tj. sprawdzenie poprawności wartości w punkcie pracy $U_{\mathrm{pp}}$ i $Y_{\mathrm{pp}}$, wyznaczenie odpowiedzi skokowych procesu, wywołanie funkcji implementujących algorytmy PID i DMC, a także optymalizacja wskaźnika jakości regulacji $E$.
 
 \section{Wyznaczenie odpowiedzi skokowych procesu}
-Rozpoczynając od punktu pracy $U_{\mathrm{pp}}=\num{0,8}$ i $Y_{\mathrm{pp}}=2$ wyznaczaliśmy różne odpowiedzi skokowe dla kilku zmian sygnału sterującego. Wyniki symulacji przedstawione są na Rys.~\ref{os}. Jak widać, symulowany obiekt jest stabilny (charakterystyki po pewnym czasie ustalają się na stałym poziomie) oraz liniowy (charakterystyki statyczne $Y(U)$ leżą w przybliżeniu na linii prostej, co przedstawione jest na Rys.~\ref{char_stat}).
+Rozpoczynając od punktu pracy $U_{\mathrm{pp}}=\num{0,8}$ i $Y_{\mathrm{pp}}=2$ wyznaczaliśmy różne odpowiedzi skokowe dla kilku zmian sygnału sterującego. Wyniki symulacji przedstawione są na Rys.~\ref{os}. Jak widać, symulowany obiekt jest stabilny (charakterystyki po pewnym czasie ustalają się na stałym poziomie) oraz liniowy (charakterystyki statyczne $Y(U)$ leżą w przybliżeniu na linii prostej, co przedstawione jest na Rys.~\ref{cs}).
 
 Na podstawie tej charakterystyki możemy obliczyć wzmocnienie statyczne procesu. Definiuje się je jako
 \begin{equation}
@@ -16,36 +16,60 @@ K=1
 \end{equation}
 
 \begin{figure}
-\label{os}
 \centering
 \caption{Odpowiedzi skokowe dla procesu symulowanego}
-\includegraphics{odpsk.png}
+\input{./PLOTS/step_response_Upp_0_8.tex}
+\label{os}
 \end{figure}
 
 \begin{figure}
-\label{char_stat}
 \centering
-\caption{Charakterystyki statyczne $Y(U)$}
-\includegraphics{static_characteristics.png}
+\caption{Charakterystyka statyczna}
+\input{./PLOTS/static_characteristics.tex}
+\label{cs}
 \end{figure}
 
-Aby otrzymać odpowiedź skokową wykorzystywaną w algorytmie DMC należy pobudzić obiekt skokiem jednostkowym, gdzie od chwili zerowej sygnał sterujący ma wartość 1, a w przeszłości jest zerowy. Wynik tej odpowiedzi skokowej jest przedstawiony na rys //TODO
+Aby otrzymać odpowiedź skokową wykorzystywaną w algorytmie DMC należy pobudzić obiekt skokiem jednostkowym, gdzie od chwili zerowej sygnał sterujący ma wartość 1, a w przeszłości jest zerowy. Wynik tej odpowiedzi skokowej jest przedstawiony na Rys.~\ref{skok1}.
+
 \begin{figure}
-	//TODO
+
+\centering
+\caption{Odp. skokowa do algorytmu DMC}
+\input{./PLOTS/DMC_step_response.tex}
+\label{skok1}
 \end{figure}
 
 \section{Programy do symulacji algorytmów}
 Programy do symulacji algorytmów zostały zaimplementowane w plikach \texttt{PID.m} i \texttt{DMC.m}. Funkcje te są wywoływane w każdej kolejnej dyskretnej chwili $k$ i obliczają wartość sterowania jaką należy przesłać na obiekt. Na wejście przyjmują więc obecne wartości zmiennych (PID - uchyb $E$, numer dyskretnej chwili $k$, parametry regulatora dyskretnego $r_{\mathrm{0}}$, $r_{\mathrm{1}}$, $r_{\mathrm{2}}$ i wartość punktu pracy $U_{\mathrm{pp}}$, a DMC dodatkowo jeszcze macierze $K$, $M_{\mathrm{P}}$, wektor $\Delta U_{\mathrm{P}}$). Nakładają one także omówione wcześniej ograniczenia na sygnał sterujący. Funkcje te wywoływane są przez funkcje przeprowadzające symulacje \texttt{PID\_simulation.m} i \texttt{DMC\_simulation.m}, które to z kolei zwracają wartości wyjścia, sterowania i wskaznika jakości i przekazują je do głównego programu.
 
 \section{Ręczny dobór odpowiednich wartości parametrów}
-Nastawy regulatora PID i parametry regulatora DMC dobierano metodą eksperymentalną, tj powoli i cierpliwie zmieniając ich wartości oraz obserwując rysunki przedstawiające przebiegi wyjścia procesu. Jak się okazuje optymalnie działający regulator PID przy nastawach ręcznych otrzymaliśmy przy następujących wartościach: $K=\num{0.01}$, $T_\mathrm{i}=10000$, $T_\mathrm{d}=0$, natomiast wskaznik jakości przyjął w tym wypadku wartość $E=\num{122.243}$. Dla algorytmu DMC jakościowo dobre okazały się parametry: $N=50$, $N_\mathrm{u}=1$, $\lambda=\num{1.5}$. Wskaźnik jakości dla tych paramterów przyjął wartość $E=\num{60.614}$  Wyniki symulacji z takimi parametrami znajdują się na rysunkach \ref{dmcinz} oraz ...
+Nastawy regulatora PID i parametry regulatora DMC dobierano metodą eksperymentalną, tj powoli i cierpliwie zmieniając ich wartości oraz obserwując rysunki przedstawiające przebiegi wyjścia procesu. Jak się okazuje optymalnie działający regulator PID przy nastawach ręcznych otrzymaliśmy przy następujących wartościach: $K=\num{1}$, $T_\mathrm{i}=10$, $T_\mathrm{d}=0$, natomiast wskaznik jakości przyjął w tym wypadku wartość $E=\num{76.3211}$. Dla algorytmu DMC jakościowo dobre okazały się parametry: $N=50$, $N_\mathrm{u}=1$, $\lambda=\num{1.5}$. Wskaźnik jakości dla tych paramterów przyjął wartość $E=\num{60.614}$  Wyniki symulacji z takimi parametrami znajdują się na rysunkach \ref{pidru}, \ref{pidry} oraz \ref{dmcinz}.
 
 \begin{figure}
-\label{dmcinz}
+
+\centering
+\caption{Przebieg symulacji PID dla parametrów dobranych metodą eksperymentalną - wartość sygnału sterującego}
+\input{./PLOTS/nastawa_reczna_U.tex}
+\label{pidru}
+\end{figure}
+
+\begin{figure}
+
+\centering
+\caption{Przebieg symulacji PID dla parametrów dobranych metodą eksperymentalną - wartość wyjścia}
+\input{./PLOTS/nastawa_reczna_Y.tex}
+\label{pidry}
+\end{figure}
+
+\begin{figure}
+
 \centering
 \caption{Przebieg symulacji DMC dla parametrów dobranych metodą eksperymentalną}
 \includegraphics{dmc_inz.png}
+\label{dmcinz}
 \end{figure}
+
+
 
 \section{Optymalizacja wskaźnika jakości}
 Następnie dokonano optymalizacji wskaźnika jakości regulatorów PID i DMC dla tej samej trajektorii z wykorzystaniem funkcji wbudowanych w środowisku Matlab. Za przyjęty wskaźnik jakości przyjęto sumę kwadratrów róznic pomiędzy wartością zadaną, a wartością wyjścia symulowanego obiektu:
@@ -54,14 +78,32 @@ Następnie dokonano optymalizacji wskaźnika jakości regulatorów PID i DMC dla
 E = \sum_{k=1}^{N} (Y^{zad}(k)-Y(k))^2
 \end{equation}
 
-Dla regulatora PID do doboru optymalnych parametrów wykorzystano funkcję 
-\verb+fmincon+. //TODO: PID do opisania
+Dla regulatora PID do doboru optymalnych parametrów wykorzystano funkcję \verb+fmincon+ radzącą sobie z problemem optymalizacji nieliniowej. W ten sposób otrzymano wartości $K=\num{4.6203}$, $T_\mathrm{i}=\num{6.5674}$, $T_\mathrm{d}=\num{4.8067}$. Wskaźnik jakości wyniósł w tym przypadku $E=\num{66.6405}$. Jest więc on mniejszy, niż w przypadku nastaw ręcznych, dla wartości $Y_\mathrm{zad}=\num{2.5}$ pojawiły się jednak silne oscylacje. Przebiegi przedstawiono na rys.~\ref{pidoptu} i \ref{pidopty}.
 
-W przypadku regulatora DMC ze względu na parametry $N$, $N_u$ przyjmujące wartości całkowite należało zastosować funkcję umożliwiającą optymalizację wskaźnika jakości dla parametrów o wartościach całkowitych. W tym celu wykorzystano funkcję \verb+ga+, czyli funkcję wykorzystującą algorytm genetyczny do optymalizacji. W ten sposób otrzymano parametry $N=43$, $N_\mathrm{u}=1$, $\lambda=\num{1.0555}$. Wskaźnik jakości dla tych parametrów wynosi $E=\num{60.369}$. Wyniki symulacji z takimi parametrami znajdują się na rysunkach \ref{dmcopt}
+W przypadku regulatora DMC ze względu na parametry $N$, $N_u$ przyjmujące wartości całkowite należało zastosować funkcję umożliwiającą optymalizację wskaźnika jakości dla parametrów o wartościach całkowitych. W tym celu wykorzystano funkcję \verb+ga+, czyli funkcję wykorzystującą algorytm genetyczny do optymalizacji. W ten sposób otrzymano parametry $N=43$, $N_\mathrm{u}=1$, $\lambda=\num{1.0555}$. Wskaźnik jakości dla tych parametrów wynosi $E=\num{60.369}$. Wyniki symulacji z takimi parametrami znajdują się na rys.~\ref{dmcopt}
+
+
 
 \begin{figure}
-\label{dmcopt}
-\centering
-\caption{Przebieg symulacji DMC dla parametrów dobranych poprzez optymalizację wskaźnika jakości}
-\includegraphics{dmc_optimized.png}
+
+	\centering
+	\caption{Przebieg symulacji PID dla parametrów dobranych poprzez optymalizację wskaźnika jakości - wartość sygnału sterującego}
+	\input{./PLOTS/optymalizacja_U.tex}
+		\label{pidoptu}
+\end{figure}
+
+\begin{figure}
+
+	\centering
+	\caption{Przebieg symulacji PID dla parametrów dobranych poprzez optymalizację wskaźnika jakości - wartość wyjścia}
+	\input{./PLOTS/optymalizacja_Y.tex}
+		\label{pidopty}
+\end{figure}
+
+\begin{figure}
+
+	\centering
+	\caption{Przebieg symulacji DMC dla parametrów dobranych poprzez optymalizację wskaźnika jakości}
+	\includegraphics{dmc_optimized.png}
+		\label{dmcopt}
 \end{figure}
